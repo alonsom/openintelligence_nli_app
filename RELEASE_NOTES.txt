@@ -1,0 +1,18 @@
+Version 1.0.2
+
+This is the second update for the OpenIntelligence Natural Language Interface for Splunk (openintelligence_nli_app).
+Changes include:
+* Fixing images sizes, app.manifest and other changes required by AppInspect.
+
+Version 1.0.1
+
+This is the first update for the OpenIntelligence Natural Language Interface for Splunk (openintelligence_nli_app).
+Changes include:
+* Display of Rest API version in both wizards.
+* Updates to CacheEntities and CacheEvents saved searches.
+* Fixing files permissions and other changes required by AppInspect.
+* Release of associated public github project [openintelligence_nli_app](https://github.com/alonsom/openintelligence_nli_app).
+
+Version 1.0.0
+
+This is the first production release of the OpenIntelligence Natural Language Interface for Splunk (openintelligence_nli_app).

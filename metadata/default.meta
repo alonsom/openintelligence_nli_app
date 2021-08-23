@@ -1,0 +1,13 @@
+
+[]
+access = read : [ * ], write : [ admin ]
+export = system
+
+[views]
+access = read : [ * ], write : [ admin ]
+export = none
+
+[nav/default]
+access = read : [ * ], write : [ admin ]
+export = none
+

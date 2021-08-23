@@ -1,0 +1,10 @@
+entity,type,mapping,_mkv_child
+account,inputlookup,account.csv,0
+device,inputlookup,device.csv,1
+email,inputlookup,email.csv,2
+executable,inputlookup,executable.csv,3
+location,inputlookup,location.csv,5
+plugin,inputlookup,plugin.csv,7
+product,inputlookup,product.csv,8
+protocol,inputlookup,protocol.csv,9
+vulnerability_info,inputlookup,vulnerability_info.csv,10

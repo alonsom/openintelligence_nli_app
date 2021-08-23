@@ -1,0 +1,6 @@
+name,risk,type,scope,status
+linux_secure,Medium,OS,privileged,
+win-10,Medium,OS,privileged,
+win-7,Medium,OS,privileged,unsupported
+WinRegistry,High,OS,privileged,
+snow:*,Medium,Application,admin,

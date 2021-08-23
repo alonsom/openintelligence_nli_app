@@ -1,0 +1,3 @@
+name,risk,type,scope
+ssh,High,remote,privileged
+http,Medium,*,

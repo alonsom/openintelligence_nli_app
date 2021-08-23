@@ -1,0 +1,98 @@
+name,hash,risk,type,scope
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+C:\Windows\System32\lsass.exe,,High,system,privileged
+C:\Windows\System32\svchost.exe,,High,system,privileged
+C:\Windows\System32\LogonUI.exe,,Medium,authentication,admin
+C:\Windows\ImmersiveControlPanel\SystemSettings.exe,,High,configure,privileged
+C:\Windows\System32\taskhostw.exe,,Medium,application,admin
+C:\Windows\explorer.exe,,Low,application,non admin
+C:\Windows\iexplorer.exe,,High,browser,non admin
+\bin,,High,system,privileged
+%SPLUNK_HOME%\splunk-optimize.exe,,Medium,system,privileged
+%SPLUNK_HOME%\python.exe,,Medium,system,privileged
+%SPLUNK_HOME%\splunkd.exe,,Medium,system,privileged
+%SPLUNK_HOME%\splunk-powershell.exe,,Medium,system,privileged
+%SPLUNK_HOME%\splunk-MonitorNoHandle.exe,,Medium,system,privileged
+%SPLUNK_HOME%\splunk-admon.exe,,Medium,system,privileged
+%SPLUNK_HOME%\splunk-netmon.exe,,Medium,system,privileged
+%SPLUNK_HOME%\splunk-regmon.exe,,Medium,system,privileged
+%SPLUNK_HOME%\splunk-winprintmon.exe,,Medium,system,privileged
+%SPLUNK_HOME%\btool.exe,,Medium,system,privileged
+C:\Program Files (x86)\Microsoft Office\root\Office16\WINWORD.EXE,,Medium,application,user
+ WindowsLiveWriter.exe,,,document,
+ EXCEL.EXE,,,document,
+ POWERPNT.EXE,,,document,
+ MSPUB.EXE,,,document,
+ INFOPATH.EXE,,,document,
+ VISIO.EXE,,,document,
+ PPTVIEW.EXE,,,document,
+ AcroRd32.exe,,,document,
+ Acrobat.exe,,,document,
+ winrar.exe,,,archive,
+ rar.exe,,,archive,
+ unrar.exe,,,archive,
+ winzip32.exe,,,archive,
+ winzip64.exe,,,archive,
+ 7z.exe,,,archive,
+ 7zG.exe,,,archive,
+ 7zFM.exe,,,archive,
+ chrome.exe,,,browser,
+ firefox.exe,,,browser,
+ plugin-container.exe,,,browser,
+ thunderbird.exe,,,browser,
+ plugin-container.exe,,,browser,
+ opera.exe,,,browser,
+ Safari.exe,,,communication,
+ Skype.exe,,,communication,
+ communicator.exe,,,communication,
+ wlmail.exe,,,communication,
+ OUTLOOK.EXE,,,communication,
+ LYNC.EXE,,,communication,
+ googletalk.exe,,,communication,
+ mirc.exe,,,communication,
+ pidgin.exe,,,document,
+ Foxit Reader.exe,,,media,
+ wmplayer.exe,,,media,
+ WLXPhotoGallery.exe,,,media,
+ OIS.EXE,,,media,
+ Photoshop.exe,,,media,
+ winamp.exe,,,media,
+ vlc.exe,,,media,
+ realconverter.exe,,,media,
+ realplay.exe,,,media,
+ QuickTimePlayer.exe,,,media,
+ iTunes.exe,,,misc,
+ SkyDrive.exe,,,misc,
+ MSACCESS.EXE,,,misc,
+ java.exe,,,misc,
+ javaw.exe,,,misc,
+ javaws.exe,,,misc,
