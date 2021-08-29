@@ -117,3 +117,4 @@ dmypy.json
 local
 local.no
 app.manifest.old
+local.meta
