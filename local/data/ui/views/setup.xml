@@ -1,0 +1,29 @@
+<dashboard hideEdit="true" theme="dark">
+  <init>
+    <unset token="and_nl"></unset>
+    <set token="repeatEntity_tk">alone</set>
+    <unset token="and_tk"></unset>
+    <set token="help_tk">on</set>
+  </init>
+  <label>Setup</label>
+  <search id="warnings">
+    <query>| `check_rest_api` 
+		   | fields msg
+    </query>
+  </search>
+  <fieldset submitButton="false" autoRun="true">
+  </fieldset>
+  <row>
+    <panel>
+      <table>
+        <search base="warnings">
+          <query>fields - _time</query>
+        </search>
+        <option name="refresh.display">progressbar</option>
+        <drilldown>
+          <link target="_blank">/manager/search/data/macros?ns=openintelligence_nli_app&amp;pwnr=-&amp;app_only=1&amp;search=oi_&amp;count=25</link>
+        </drilldown>
+      </table>
+    </panel>
+  </row>
+</dashboard>

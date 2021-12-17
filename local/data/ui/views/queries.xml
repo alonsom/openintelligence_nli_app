@@ -1,0 +1,40 @@
+<dashboard>
+  <label>Queries</label>
+  <row>
+    <panel>
+      <table>
+        <search>
+          <query>source="showcase_simple_search.json" host="DESKTOP-G07RLH1" index="queries" sourcetype="my_json_no_timestamp" | eval sourcetype=json,_raw=replace(_raw,"    },","    }"), _raw="{ "._raw." }"  | eval _raw=replace(_raw,"\\\\\"","$$") | search "- Live" | rex field=_raw "\"value\"\s*\:\s*\"(?&lt;value&gt;[^\"]*)\"" | rex field=_raw "\"label\"\s*\:\s*\"(?&lt;label&gt;[^\"]*)\"" | eval value=replace(value,"\$$","\"") | table label, value</query>
+          <earliest>0</earliest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">20</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="percentagesRow">false</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <search>
+          <query>| datamodel Change  Account_Management  | spath output=all  calculations{} | mvexpand all | spath input="all" output=fields  outputFields{} | spath input="all" output=expression  expression | spath input="all" output=calculationType  calculationType | append [ | datamodel Change  Account_Management  | spath output=fields fields{} ] | mvexpand fields | eval _time = now(), _raw = fields | spath | rename comment.* AS comment_* | rename *{}* AS **  | table comment_* calculationType, expression, displayName, editable,  fieldName, multivalue, owner, required,type  | fields - _raw | search owner!="BaseEvent" AND type!="objectCount" AND type!="childCount"</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">50</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="percentagesRow">false</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+      </table>
+    </panel>
+  </row>
+</dashboard>

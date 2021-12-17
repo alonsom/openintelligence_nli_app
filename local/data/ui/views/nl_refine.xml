@@ -1,0 +1,296 @@
+<form hideEdit="true" theme="dark">
+  <init>
+    <set token="timechart_tk">timechart</set>
+  </init>
+  <label>Natural Language Advanced Wizard</label>
+  <search id="base">
+    <query>$form.splquery$</query>
+    <earliest>$time.earliest$</earliest>
+    <latest>$time.latest$</latest>
+  </search>
+  <fieldset submitButton="false" autoRun="true">
+    <html>
+      <a target="_self" href="nl">Reset the form before starting building a new query (click here to reset)</a>
+      <br/>
+    </html>
+    <input type="link" token="query" searchWhenChanged="true">
+      <label></label>
+      <fieldForLabel>query</fieldForLabel>
+      <fieldForValue>query</fieldForValue>
+      <search>
+        <query>| makeresults | eval query="$form.query$"</query>
+      </search>
+    </input>
+    <input type="dropdown" token="and" depends="$query$" searchWhenChanged="true">
+      <label>Correlation Operator</label>
+      <choice value="-">-</choice>
+      <choice value="and">and</choice>
+      <choice value="andnot">and is not true that</choice>
+      <choice value="before">before</choice>
+      <choice value="last">and the latest event about</choice>
+      <choice value="around">and around the same time</choice>
+      <default>-</default>
+      <initialValue>-</initialValue>
+      <change>
+        <condition value="-">
+          <unset token="and_tk"></unset>
+          <unset token="last_tk"></unset>
+          <unset token="before_tk"></unset>
+          <set token="and_nl">-</set>
+        </condition>
+        <condition value="and">
+          <set token="and_tk">and</set>
+          <unset token="last_tk"></unset>
+          <set token="before_tk">and</set>
+          <set token="and_nl">and</set>
+        </condition>
+        <condition value="andnot">
+          <set token="and_tk">and not</set>
+          <unset token="last_tk"></unset>
+          <set token="before_tk">and</set>
+          <set token="and_nl">and is not true that</set>
+        </condition>
+        <condition value="before">
+          <set token="and_tk">and</set>
+          <unset token="last_tk"></unset>
+          <set token="before_tk">before</set>
+          <set token="and_nl">before</set>
+        </condition>
+        <condition value="last">
+          <set token="and_tk">and latest</set>
+          <set token="last_tk">last</set>
+          <set token="before_tk">and</set>
+          <set token="and_nl">and the latest event about</set>
+        </condition>
+      </change>
+    </input>
+    <input type="multiselect" token="adjective1" searchWhenChanged="true" depends="$form.event$,$entity1$,$and_tk$" rejects="$event1$">
+      <label>Second Adjective</label>
+      <fieldForLabel>adjective_clean</fieldForLabel>
+      <fieldForValue>adjective</fieldForValue>
+      <search>
+        <query>| `meta_query("adjective($entity1$)")` 
+               | rename result AS adjective 
+               | eval adjective_clean=replace(adjective,"\_"," ")
+        </query>
+      </search>
+      <delimiter>,</delimiter>
+      <choice value="any">this</choice>
+      <default>any</default>
+      <initialValue>any</initialValue>
+    </input>
+    <input type="dropdown" token="entity1" searchWhenChanged="true" depends="$form.event$,$and_tk$" rejects="$event1$">
+      <label>Second Joining Entity</label>
+      <fieldForLabel>entity_clean</fieldForLabel>
+      <fieldForValue>entity</fieldForValue>
+      <search>
+        <query>| inputlookup cached_event.csv where event="$form.event$"
+               | eval entity_clean=replace(entity,"\_"," ")</query>
+      </search>
+    </input>
+    <input type="link" token="entityno" searchWhenChanged="false" depends="$and_tk$,$event1$,$adjective1$,$entity1$,$form.entity$">
+      <label></label>
+      <fieldForLabel>adjective_entity</fieldForLabel>
+      <fieldForValue>entity</fieldForValue>
+      <search>
+        <query>| makeresults | eval entity="$entity1$", entity="$form.entity$",adjective_entity="this $adjective1$ $entity1$ had "</query>
+      </search>
+    </input>
+    <input type="multiselect" token="adverb1" searchWhenChanged="true" depends="$event1$,$and_tk$">
+      <label>Second Modifier</label>
+      <fieldForLabel>adverb_clean</fieldForLabel>
+      <fieldForValue>adverb</fieldForValue>
+      <search>
+        <query>| `meta_query("adverb($event1$)")` 
+               | rename result AS adverb
+               | eval adverb_clean=replace(adverb,"\_"," ")
+        </query>
+      </search>
+      <choice value="any">Any</choice>
+      <default>any</default>
+      <initialValue>any</initialValue>
+      <delimiter> ,</delimiter>
+    </input>
+    <input type="dropdown" token="event1" searchWhenChanged="true" depends="$form.entity$,$entity1$,$and_tk$">
+      <label>Second Event</label>
+      <fieldForLabel>event_clean</fieldForLabel>
+      <fieldForValue>event</fieldForValue>
+      <search>
+        <query>| inputlookup cached_event.csv where entity="$entity1$"
+               | dedup event | sort event | fields - entity 
+               | eval event_clean=replace(event,"\_"," ")</query>
+      </search>
+    </input>
+    <html>
+      <br/>
+    </html>
+    <input type="dropdown" token="stats_op" searchWhenChanged="true">
+      <showClearButton>false</showClearButton>
+      <label>Statistical Operator</label>
+      <choice value="">-</choice>
+      <choice value="avg">avg</choice>
+      <choice value="count">count</choice>
+      <choice value="distinct_count">distinct count</choice>
+      <choice value="estdc">estdc</choice>
+      <choice value="estdc_error">estdc error</choice>
+      <choice value="max">max</choice>
+      <choice value="median">median</choice>
+      <choice value="min">min</choice>
+      <choice value="mode">mode</choice>
+      <choice value="range">range</choice>
+      <choice value="stdev">standard deviation</choice>
+      <choice value="sum">sum</choice>
+      <choice value="var">var</choice>
+      <change>
+        <condition value="-">
+          <unset token="stats_op_tk"></unset>
+        </condition>
+        <condition>
+          <set token="stats_op_tk">on</set>
+        </condition>
+      </change>
+    </input>
+    <input type="multiselect" token="by" searchWhenChanged="true" depends="$stats_op$">
+      <label>By</label>
+      <fieldForLabel>entity_clean</fieldForLabel>
+      <fieldForValue>entity</fieldForValue>
+      <search>
+        <query>| makeresults | eval event="$form.event$" 
+| lookup cached_event.csv event AS event  OUTPUT entity | mvexpand  entity | where entity!="eventRoot"
+| eval entity_clean=replace(entity,"\_"," ")
+        </query>
+      </search>
+      <default>$form.by$</default>
+      <delimiter>,</delimiter>
+    </input>
+    <input type="time" token="time" depends="$form.event$" searchWhenChanged="true">
+      <label></label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
+  <row>
+    <panel depends="$form.query$,$stats_op$,$by$" rejects="$and_tk$">
+      <title>Select Action</title>
+      <table>
+        <search>
+          <query>| `process_query("$form.query$","","","$stats_op$","$by$")`</query>
+          <earliest>$earliest$</earliest>
+          <latest>$latest$</latest>
+        </search>
+        <option name="drilldown">row</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">false</option>
+        <fields>["intent","splquery","Visualise Query","status","limitations"]</fields>
+        <drilldown>
+          <condition field="intent"></condition>
+          <condition field="splquery"></condition>
+          <condition field="status"></condition>
+          <!--condition field="Visualise Query">
+            <link>nl?manual_tk=on&amp;timechart_tk=on&amp;form.intent=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.entity=$row.entity$&amp;form.event=$row.event$&amp;form.intent=$row.intent$</link>
+          </condition-->
+          <condition field="Visualise Query">
+            <link>nl_refine?form.query=$form.query$&amp;form.splquery=$row.splquery$&amp;form.entity=$form.entity$&amp;form.event=$form.event$&amp;form.stats_op=$stats_op$&amp;form.by=$by$&amp;form.and=$and$&amp;form.intent=$row.intent$&amp;form.and=-</link>
+          </condition>
+        </drilldown>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel depends="$form.query$,$and_nl$,$adjective1$,$entity1$,$form.entity$,$adverb1$,$event1$,$stats_op$,$form.entity$,$by$">
+      <title>Select Action</title>
+      <table>
+        <search>
+          <query>| `process_query("$form.query$","$and_nl$","$adjective1$ $entity1$ had $adverb1$ $event1$","$stats_op$","$by$")`</query>
+          <earliest>$earliest$</earliest>
+          <latest>$latest$</latest>
+        </search>
+        <option name="drilldown">row</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">false</option>
+        <fields>["intent","splquery","Visualise Query","status","limitations"]</fields>
+        <drilldown>
+          <condition field="intent"></condition>
+          <condition field="splquery"></condition>
+          <condition field="status"></condition>
+          <!--condition field="Visualise Query">
+            <link>nl?manual_tk=on&amp;timechart_tk=on&amp;form.intent=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.entity=$row.entity$&amp;form.event=$row.event$&amp;form.intent=$row.intent$</link>
+          </condition-->
+          <condition field="Visualise Query">
+            <link>nl_refine?form.query=$form.query$&amp;form.splquery=$row.splquery$&amp;form.event=$row.event$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.by$&amp;form.and=$row.and$&amp;form.intent=$row.intent$&amp;form.and=-&amp;form.adjective1=$adjective1$&amp;form.entity1=$entity1$&amp;form.adverb1=$adverb1$&amp;form.event1=$event1$</link>
+          </condition>
+        </drilldown>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel depends="$form.query$,$and_nl$,$adjective1$,$entity1$,$form.entity$,$adverb1$,$event1$,$form.entity$" rejects="$by$">
+      <title>Select Action</title>
+      <table>
+        <search>
+          <query>| `process_query("$form.query$","$and_nl$","$adjective1$ $entity1$ had $adverb1$ $event1$","-","")`</query>
+          <earliest>$earliest$</earliest>
+          <latest>$latest$</latest>
+        </search>
+        <option name="drilldown">row</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">false</option>
+        <fields>["intent","splquery","Visualise Query","status","limitations"]</fields>
+        <drilldown>
+          <condition field="intent"></condition>
+          <condition field="splquery"></condition>
+          <condition field="status"></condition>
+          <!--condition field="Visualise Query">
+            <link>nl?manual_tk=on&amp;timechart_tk=on&amp;form.intent=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.entity=$row.entity$&amp;form.event=$row.event$&amp;form.intent=$row.intent$</link>
+          </condition-->
+          <condition field="Visualise Query">
+            <link>nl_refine?form.query=$form.query$&amp;form.splquery=$row.splquery$&amp;form.event=$row.event$&amp;form.stats_op=$row.stats_op$&amp;form.and=$row.and$&amp;form.intent=$row.intent$&amp;form.and=-&amp;form.adjective1=$adjective1$&amp;form.entity1=$entity1$&amp;form.adverb1=$adverb1$&amp;form.event1=$event1$</link>
+          </condition>
+        </drilldown>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel depends="$form.intent$">
+      <table>
+        <title>Matching Events for $form.intent$</title>
+        <search base="base">
+          <query>| fields *.name, $form.event$.*,count*,host, source, sourcetype | fields - _raw</query>
+        </search>
+        <option name="drilldown">cell</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+  <row depends="noshow">
+    <panel>
+      <html>
+      <style>
+        .link1 {
+          min-width: 350px !important;
+          width: 350px !important;
+          max-width: 350px !important;
+        }
+        .input-link {
+          min-width: 350px !important;
+          width: 350px !important;
+          max-width: 350px !important;
+        }
+       .splunk-radiogroup {
+          min-width: 240px !important;
+          width: 240px !important;
+          max-width: 240px !important;
+        }
+       .splunk-radiogroup1 {
+          min-width: 240px !important;
+          width: 240px !important;
+          max-width: 240px !important;
+          padding-left:50px !important;
+        }
+      </style>
+    </html>
+    </panel>
+  </row>
+</form>

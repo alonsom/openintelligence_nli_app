@@ -114,6 +114,5 @@ dmypy.json
 .pyre/
 
 # App specific
-local
 app.manifest.old
 local.meta

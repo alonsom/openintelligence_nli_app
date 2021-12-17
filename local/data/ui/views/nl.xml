@@ -1,0 +1,356 @@
+<form hideEdit="true" theme="dark">
+  <init>
+    <set token="timechart_tk">on</set>
+    <set token="MyPanelJobSID">$job.sid$</set>
+    <unset token="form.help_tk"></unset>
+    <!--unset token="manual_tk"></unset-->
+  </init>
+  <label>Natural Language Search</label>
+  <search id="base">
+    <query>$form.splquery$ | eval intent="$form.intent$"</query>
+    <earliest>$time.earliest$</earliest>
+    <latest>$time.latest$</latest>
+  </search>
+  <fieldset submitButton="false" autoRun="true">
+    <html>
+      <a target="_self" href="nl?query=">Reset the form before starting building a new query (click here to reset)</a>
+      <br/>
+    </html>
+    <input id="text" type="text" token="intent" searchWhenChanged="true" rejects="$help_tk$">
+      <label>Your Natural Language Query</label>
+      <change>
+        <condition value="">
+          <unset token="manual_tk"></unset>
+        </condition>
+        <condition>
+          <set token="manual_tk">on</set>
+          <!--unset token="form.splquery"></unset-->
+        </condition>
+      </change>
+    </input>
+    <input type="multiselect" token="adjective" searchWhenChanged="true" rejects="$event$" depends="$help_tk$,$entity$">
+      <label>Adjective</label>
+      <fieldForLabel>adjective_clean</fieldForLabel>
+      <fieldForValue>adjective</fieldForValue>
+      <search>
+        <query>| `meta_query("adjective($entity$)")` 
+               | rename result AS adjective 
+               | eval adjective_clean=replace(adjective,"\_"," ")</query>
+      </search>
+      <change>
+        <condition>
+          <unset token="manual_tk"></unset>
+          <!--unset token="form.splquery"></unset-->
+        </condition>
+      </change>
+      <choice value="any">Any</choice>
+      <default>any</default>
+      <delimiter>,</delimiter>
+      <initialValue>any</initialValue>
+    </input>
+    <input type="dropdown" token="entity" searchWhenChanged="true" rejects="$event$" depends="$help_tk$">
+      <label>Entity</label>
+      <fieldForLabel>entity_clean</fieldForLabel>
+      <fieldForValue>entity</fieldForValue>
+      <search>
+        <query>| inputlookup cached_entity.csv
+               | eval entity_clean=replace(entity,"\_"," ")</query>
+      </search>
+      <change>
+        <condition>
+          <unset token="manual_tk"></unset>
+          <!--unset token="form.splquery"></unset-->
+        </condition>
+      </change>
+    </input>
+    <input type="link" token="entityno" searchWhenChanged="false" depends="$help_tk$,$entity$,$event$">
+      <label></label>
+      <fieldForLabel>adjective_entity</fieldForLabel>
+      <fieldForValue>entity</fieldForValue>
+      <search>
+        <query>| makeresults | eval entity="$entity$", adjective_entity="$adjective$ $entity$ with "</query>
+      </search>
+    </input>
+    <input type="multiselect" token="adverb" searchWhenChanged="true" depends="$help_tk$,$event$">
+      <label>Modifier</label>
+      <fieldForLabel>adverb_clean</fieldForLabel>
+      <fieldForValue>adverb</fieldForValue>
+      <search>
+        <query>| `meta_query("adverb($event$)")` 
+               | rename result AS adverb
+               | eval adverb_clean=replace(adverb,"\_"," ")
+        </query>
+      </search>
+      <change>
+        <condition>
+          <unset token="manual_tk"></unset>
+          <!--unset token="form.splquery"></unset-->
+        </condition>
+      </change>
+      <choice value="any">Any</choice>
+      <default>any</default>
+      <initialValue>any</initialValue>
+      <delimiter>,</delimiter>
+    </input>
+    <input type="dropdown" token="event" searchWhenChanged="true" depends="$help_tk$,$entity$">
+      <label>Event</label>
+      <fieldForLabel>event_clean</fieldForLabel>
+      <fieldForValue>event</fieldForValue>
+      <search>
+        <query>| inputlookup cached_event.csv where entity="$entity$" AND entity!="eventRoot" 
+               | eval event_clean=replace(event,"\_"," ")
+        </query>
+      </search>
+    </input>
+    <input type="dropdown" token="event" searchWhenChanged="true" depends="$help_tk$" rejects="$entity$">
+      <label>Event</label>
+      <fieldForLabel>event_clean</fieldForLabel>
+      <fieldForValue>event</fieldForValue>
+      <search>
+        <query>| inputlookup cached_event.csv where entity!="eventRoot" | dedup event
+               | eval event_clean=replace(event,"\_"," ")
+        </query>
+      </search>
+      <change>
+        <condition>
+          <unset token="manual_tk"></unset>
+          <!--unset token="form.splquery"></unset-->
+        </condition>
+      </change>
+    </input>
+    <html>
+      <br/>
+    </html>
+    <input type="checkbox" token="help" searchWhenChanged="true">
+      <label>Options</label>
+      <choice value="on">Guided Mode</choice>
+      <change>
+        <condition value="on">
+          <set token="help_tk">on</set>
+        </condition>
+        <condition>
+          <unset token="help_tk"></unset>
+        </condition>
+      </change>
+    </input>
+    <input type="dropdown" token="visualisation" depends="$form.splquery$" searchWhenChanged="true">
+      <label>Visualisation</label>
+      <choice value="timechart">Time Chart</choice>
+      <choice value="pivot">Pivot</choice>
+      <change>
+        <condition value="timechart">
+          <set token="timechart_tk">timechart</set>
+          <unset token="pivot_tk"></unset>
+        </condition>
+        <condition value="pivot">
+          <unset token="timechart_tk"></unset>
+          <set token="pivot_tk">pivot</set>
+        </condition>
+      </change>
+      <default>timechart</default>
+      <initialValue>timechart</initialValue>
+    </input>
+    <input type="time" token="time" depends="$form.splquery$" searchWhenChanged="true">
+      <label></label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
+  <row depends="$help_tk$" rejects="$entity$,$event$">
+    <panel>
+      <html>
+        <p>
+          <strong>Select an Entity or an Event</strong>
+          <br/>
+          <strong>*</strong>Start by selecting a relevant subject/object/component for your search (e.g. <i>account</i> is the main entity in the search: <i>privileged account with a failed authentication</i>). This entity will be part of the query result and might be used for joining events (if needed).
+          <br/>
+          <strong>*</strong>You could also select any event if your query is not related to any entity in particular
+        </p>
+    </html>
+    </panel>
+  </row>
+  <row depends="$entity$,$help_tk$" rejects="$event$">
+    <panel>
+      <html>
+        <p>
+          <strong>Select any of the events containing data related to the selected entity</strong>
+          <br/>
+          <strong>*</strong> You could  select an event (e.g. <i>authentication</i> in the search: <i>privileged account with a failed authentication</i>).
+          <br/>
+          <strong>*</strong> You could select any number of optional adjectives for qualifying the selected entity,  like <i>privileged</i> for privileged accounts, <i>all known</i> for well know entities or just leave <i>any</i> for matching any entity.
+        </p>
+    </html>
+    </panel>
+  </row>
+  <row depends="$event$,$help_tk$">
+    <panel>
+      <html>
+        <p>
+          <strong>Click on "Visualise Query"</strong>
+          <br/>
+          <strong>*</strong>Click on "Visualise Query" to execute the selected query and visualise the results in different ways
+          <br/>
+          <strong>*</strong>You could add one or more adverbs to qualify the events of interest
+          <br/>
+          <strong>*</strong>You could also click on "Refine Query" to build more complex correlation/statistical queries
+        </p>
+    </html>
+    </panel>
+  </row>
+  <row rejects="$form.intent$,$entity$,$event$">
+    <panel>
+      <title>Latest queries</title>
+      <table>
+        <search>
+          <query>index=_audit info=granted "eval intent=" search_id=*verylargoadmin_* app=openintelligence_nli_app  provenance="UI:Dashboard:nl" NOT search="*_clean*" NOT search="*process_query*" NOT search="*check_rest_api*" NOT "Error:no response" NOT "12222253" | append [search index=_internal sourcetype=splunkd action=search info=granted search=*] | eval meta_query="12222253", search1=split(search,"| eval intent="), splquery=mvindex(search1,0), intent=mvindex(search1,1), intent=replace(intent,"\"",""), intent=replace(intent,"'",""), "Run Query"="CLICK HERE" | dedup splquery | table timestamp, user, intent, splquery, "Run Query"</query>
+          <earliest>$earliest$</earliest>
+          <latest>$latest$</latest>
+        </search>
+        <option name="drilldown">row</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">false</option>
+        <fields>["timestamp","user","intent","splquery","Run Query"]</fields>
+        <drilldown>
+          <condition field="intent"></condition>
+          <condition field="splquery"></condition>
+          <condition field="status"></condition>
+          <condition field="caveats"></condition>
+          <condition field="Run Query">
+            <link>nl?form.intent=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.intent1=$row.intent$</link>
+          </condition>
+        </drilldown>
+      </table>
+    </panel>
+  </row>
+  <row depends="$adjective$,$entity$,$adverb$,$event$" rejects="$manual_tk$">
+    <panel>
+      <title>Select Intent, Query and Action</title>
+      <table>
+        <search>
+          <query>| `process_query("$adjective$ $entity$ with $adverb$ $event$")`</query>
+        </search>
+        <option name="drilldown">row</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">false</option>
+        <fields>["intent","splquery","Visualise Query","Refine Query","status","caveats"]</fields>
+        <drilldown>
+          <condition field="intent"></condition>
+          <condition field="splquery"></condition>
+          <condition field="status"></condition>
+          <condition field="caveats"></condition>
+          <condition field="Visualise Query">
+            <link>nl?manual_tk=on&amp;timechart_tk=on&amp;form.intent=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.entity=$row.entity$&amp;form.event=$row.event$&amp;form.intent1=$row.intent$&amp;form.adjective=$row.adjective$&amp;form.adverb=$row.adverb$</link>
+          </condition>
+          <condition field="Refine Query">
+            <link>nl_refine?form.query=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.entity=$row.entity$&amp;form.event=$row.event$&amp;form.adjective=$row.adjective$&amp;form.adverb=$row.adverb$</link>
+          </condition>
+        </drilldown>
+      </table>
+    </panel>
+  </row>
+  <row depends="$adverb$,$event$" rejects="$manual_tk$,$entity$">
+    <panel>
+      <title>Select Intent, Query and Action</title>
+      <table>
+        <search>
+          <query>| `process_query("$adverb$ $event$")`</query>
+        </search>
+        <option name="drilldown">row</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">false</option>
+        <fields>["intent","splquery","Visualise Query","Refine Query","status","caveats"]</fields>
+        <drilldown>
+          <condition field="intent"></condition>
+          <condition field="splquery"></condition>
+          <condition field="status"></condition>
+          <condition field="caveats"></condition>
+          <condition field="Visualise Query">
+            <link>nl?manual_tk=on&amp;timechart_tk=on&amp;form.intent=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.entity=$row.entity$&amp;form.event=$row.event$&amp;form.intent1=$row.intent$&amp;form.adjective=$row.adjective$&amp;form.adverb=$row.adverb$</link>
+          </condition>
+          <condition field="Refine Query">
+            <link>nl_refine?form.query=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.entity=$row.entity$&amp;form.event=$row.event$&amp;form.adjective=$row.adjective$&amp;form.adverb=$row.adverb$</link>
+          </condition>
+        </drilldown>
+      </table>
+    </panel>
+  </row>
+  <row depends="$intent$,$manual_tk$">
+    <panel>
+      <title>Select Intent, Query and Action</title>
+      <table>
+        <search>
+          <query>| `process_query("$intent$")`</query>
+        </search>
+        <option name="drilldown">row</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">false</option>
+        <fields>["intent","splquery","Visualise Query","Refine Query","status","caveats"]</fields>
+        <drilldown>
+          <condition field="intent"></condition>
+          <condition field="splquery"></condition>
+          <condition field="status"></condition>
+          <condition field="caveats"></condition>
+          <condition field="Visualise Query">
+            <link>nl?manual_tk=on&amp;timechart_tk=on&amp;timechart_tk=on&amp;form.intent=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.entity=$row.entity$&amp;form.event=$row.event$&amp;form.intent1=$row.intent$&amp;form.adjective=$row.adjective$&amp;form.adverb=$row.adverb$</link>
+          </condition>
+          <condition field="Refine Query">
+            <link>nl_refine?form.query=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.entity=$row.entity$&amp;form.event=$row.event$&amp;form.adjective=$row.adjective$&amp;form.adverb=$row.adverb$</link>
+          </condition>
+        </drilldown>
+      </table>
+    </panel>
+  </row>
+  <row depends="$form.splquery$">
+    <panel>
+      <title>Results for: $form.intent1$</title>
+      <table>
+        <title>$form.splquery$</title>
+        <search base="base">
+          <query>| fields *.name,count*,host*, source*, sourcetype* | fields - _raw</query>
+        </search>
+        <option name="drilldown">cell</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+    <panel depends="$timechart_tk$" rejects="$pivot_tk$">
+      <title>Time Visualisation by Entity</title>
+      <chart>
+        <search base="base">
+          <query>| timechart count AS count_by_$entity$ by $entity$.name</query>
+        </search>
+        <option name="charting.axisTitleX.text">time</option>
+        <option name="charting.axisTitleY.text">count_by_$entity$</option>
+        <option name="charting.chart">line</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+    <panel depends="$pivot_tk$,$form.entity$" rejects="$timechart_tk$">
+      <title>Count Visualisation by Entity</title>
+      <chart>
+        <search base="base">
+          <query>| stats count by $form.entity$.name</query>
+        </search>
+        <option name="charting.chart">line</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+  </row>
+  <row depends="noshow">
+    <panel>
+      <html>
+        <!--color:#1A237E !important;
+          background-color:#F0F0F0 !important; -->
+      <style>
+        .splunk-textinput {
+          min-width: 550px !important;
+          width: 750px !important;
+          max-width: 850px !important;
+          background-color:#030521 !important;
+        }
+      </style>
+    </html>
+    </panel>
+  </row>
+</form>
