@@ -84,7 +84,7 @@
       <fieldForLabel>entity_clean</fieldForLabel>
       <fieldForValue>entity</fieldForValue>
       <search>
-        <query>| inputlookup cached_event.csv where event="$form.event$"
+        <query>| inputlookup cached_event.csv where event="$form.event$" AND NOT entity="eventRoot"
                | eval entity_clean=replace(entity,"\_"," ")</query>
       </search>
     </input>
