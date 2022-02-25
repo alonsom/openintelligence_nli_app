@@ -8,7 +8,6 @@
   <label>Setup</label>
   <search id="warnings">
     <query>| `check_rest_api` 
-		   | fields msg
     </query>
   </search>
   <fieldset submitButton="false" autoRun="true">
@@ -17,11 +16,26 @@
     <panel>
       <table>
         <search base="warnings">
-          <query>fields - _time</query>
+          <query>fields - _time | fields - result | eval pass="CLICK HERE"</query>
         </search>
+        <option name="drilldown">row</option>
         <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">false</option>
+        <fields>["msg","host","port","user","pass"]</fields>
         <drilldown>
-          <link target="_blank">/manager/search/data/macros?ns=openintelligence_nli_app&amp;pwnr=-&amp;app_only=1&amp;search=oi_&amp;count=25</link>
+          <condition field="msg"></condition>
+          <condition field="host">
+            <link target="_blank">/manager/search/data/macros/oi_host?action=edit&amp;ns=openintelligence_nli_app&amp;pwnr=-&amp;app_only=1&amp;search=oi_&amp;count=25</link>
+          </condition>
+          <condition field="port">
+            <link target="_blank">/manager/search/data/macros/oi_port?action=edit&amp;ns=openintelligence_nli_app&amp;pwnr=-&amp;app_only=1&amp;search=oi_&amp;count=25</link>
+          </condition>
+          <condition field="user">
+            <link target="_blank">/manager/search/data/macros/oi_user?action=edit&amp;ns=openintelligence_nli_app&amp;pwnr=-&amp;app_only=1&amp;search=oi_&amp;count=25</link>
+          </condition>
+          <condition field="pass">
+            <link target="_blank">/manager/search/data/macros/oi_pass?action=edit&amp;ns=openintelligence_nli_app&amp;pwnr=-&amp;app_only=1&amp;search=oi_&amp;count=25</link>
+          </condition>
         </drilldown>
       </table>
     </panel>

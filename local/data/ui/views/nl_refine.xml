@@ -1,13 +1,23 @@
 <form hideEdit="true" theme="dark">
-  <init>
-    <set token="timechart_tk">timechart</set>
-  </init>
+  <init></init>
   <label>Natural Language Advanced Wizard</label>
   <search id="base">
     <query>$form.splquery$</query>
     <earliest>$time.earliest$</earliest>
     <latest>$time.latest$</latest>
   </search>
+  <!--row>
+    <panel depends="$form.intent$">
+      <table>
+        <title>Matching Events for $form.intent$</title>
+        <search base="base">
+          <query>| fields *.name, $form.event$.*,count*,host, source, sourcetype | fields - _raw</query>
+        </search>
+        <option name="drilldown">cell</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row-->
   <fieldset submitButton="false" autoRun="true">
     <html>
       <a target="_self" href="nl">Reset the form before starting building a new query (click here to reset)</a>
@@ -34,37 +44,23 @@
       <change>
         <condition value="-">
           <unset token="and_tk"></unset>
-          <unset token="last_tk"></unset>
-          <unset token="before_tk"></unset>
-          <set token="and_nl">-</set>
+          <!--set token="and_nl">-</set-->
         </condition>
         <condition value="and">
           <set token="and_tk">and</set>
-          <unset token="last_tk"></unset>
-          <set token="before_tk">and</set>
-          <set token="and_nl">and</set>
         </condition>
         <condition value="andnot">
-          <set token="and_tk">and not</set>
-          <unset token="last_tk"></unset>
-          <set token="before_tk">and</set>
-          <set token="and_nl">and is not true that</set>
+          <set token="and_tk">and is not true that</set>
         </condition>
         <condition value="before">
-          <set token="and_tk">and</set>
-          <unset token="last_tk"></unset>
-          <set token="before_tk">before</set>
-          <set token="and_nl">before</set>
+          <set token="and_tk">before</set>
         </condition>
         <condition value="last">
-          <set token="and_tk">and latest</set>
-          <set token="last_tk">last</set>
-          <set token="before_tk">and</set>
-          <set token="and_nl">and the latest event about</set>
+          <set token="and_tk">and the latest event about</set>
         </condition>
       </change>
     </input>
-    <input type="multiselect" token="adjective1" searchWhenChanged="true" depends="$form.event$,$entity1$,$and_tk$" rejects="$event1$">
+    <input type="multiselect" token="adjective1" searchWhenChanged="true" depends="$entity1$,$and_tk$" rejects="$event1$">
       <label>Second Adjective</label>
       <fieldForLabel>adjective_clean</fieldForLabel>
       <fieldForValue>adjective</fieldForValue>
@@ -79,7 +75,7 @@
       <default>any</default>
       <initialValue>any</initialValue>
     </input>
-    <input type="dropdown" token="entity1" searchWhenChanged="true" depends="$form.event$,$and_tk$" rejects="$event1$">
+    <input type="dropdown" token="entity1" searchWhenChanged="true" depends="$and_tk$" rejects="$event1$">
       <label>Second Joining Entity</label>
       <fieldForLabel>entity_clean</fieldForLabel>
       <fieldForValue>entity</fieldForValue>
@@ -88,12 +84,12 @@
                | eval entity_clean=replace(entity,"\_"," ")</query>
       </search>
     </input>
-    <input type="link" token="entityno" searchWhenChanged="false" depends="$and_tk$,$event1$,$adjective1$,$entity1$,$form.entity$">
+    <input type="link" token="entityno" searchWhenChanged="false" depends="$and_tk$,$event1$">
       <label></label>
       <fieldForLabel>adjective_entity</fieldForLabel>
       <fieldForValue>entity</fieldForValue>
       <search>
-        <query>| makeresults | eval entity="$entity1$", entity="$form.entity$",adjective_entity="this $adjective1$ $entity1$ had "</query>
+        <query>| makeresults | eval entity="$entity1$", adjective_entity="this $adjective1$ $entity1$ had ", adjective_entity=replace(adjective_entity,"any,",""), adjective_entity=replace(adjective_entity,"any ","")</query>
       </search>
     </input>
     <input type="multiselect" token="adverb1" searchWhenChanged="true" depends="$event1$,$and_tk$">
@@ -111,7 +107,7 @@
       <initialValue>any</initialValue>
       <delimiter> ,</delimiter>
     </input>
-    <input type="dropdown" token="event1" searchWhenChanged="true" depends="$form.entity$,$entity1$,$and_tk$">
+    <input type="dropdown" token="event1" searchWhenChanged="true" depends="$entity1$,$and_tk$">
       <label>Second Event</label>
       <fieldForLabel>event_clean</fieldForLabel>
       <fieldForValue>event</fieldForValue>
@@ -128,9 +124,15 @@
       <showClearButton>false</showClearButton>
       <label>Statistical Operator</label>
       <choice value="">-</choice>
-      <choice value="avg">avg</choice>
       <choice value="count">count</choice>
       <choice value="distinct_count">distinct count</choice>
+      <choice value="var">var</choice>
+      <choice value="first">first</choice>
+      <choice value="last">last</choice>
+      <choice value="mode">mode</choice>
+      <choice value="values">values</choice>
+      <!-- To ENable when generating fields
+      <choice value="avg">avg</choice>
       <choice value="estdc">estdc</choice>
       <choice value="estdc_error">estdc error</choice>
       <choice value="max">max</choice>
@@ -139,14 +141,16 @@
       <choice value="mode">mode</choice>
       <choice value="range">range</choice>
       <choice value="stdev">standard deviation</choice>
-      <choice value="sum">sum</choice>
-      <choice value="var">var</choice>
+      <choice value="sum">sum</choice -->
       <change>
         <condition value="-">
-          <unset token="stats_op_tk"></unset>
+          <unset token="stats_op_type"></unset>
+        </condition>
+        <condition value="var">
+          <set token="stats_op_text">on</set>
         </condition>
         <condition>
-          <set token="stats_op_tk">on</set>
+          <set token="stats_op_int">on</set>
         </condition>
       </change>
     </input>
@@ -157,11 +161,12 @@
       <search>
         <query>| makeresults | eval event="$form.event$" 
 | lookup cached_event.csv event AS event  OUTPUT entity | mvexpand  entity | where entity!="eventRoot"
-| eval entity_clean=replace(entity,"\_"," ")
-        </query>
+| eval entity_clean=replace(entity,"\_"," ")</query>
       </search>
-      <default>$form.by$</default>
       <delimiter>,</delimiter>
+      <choice value="eventRoot">eventRoot</choice>
+      <default>eventRoot</default>
+      <initialValue>eventRoot</initialValue>
     </input>
     <input type="time" token="time" depends="$form.event$" searchWhenChanged="true">
       <label></label>
@@ -183,84 +188,63 @@
         <option name="drilldown">row</option>
         <option name="refresh.display">progressbar</option>
         <option name="rowNumbers">false</option>
-        <fields>["intent","splquery","Visualise Query","status","limitations"]</fields>
+        <fields>["intent","splquery","Visualise Query","status","caveats"]</fields>
         <drilldown>
           <condition field="intent"></condition>
           <condition field="splquery"></condition>
           <condition field="status"></condition>
-          <!--condition field="Visualise Query">
-            <link>nl?manual_tk=on&amp;timechart_tk=on&amp;form.intent=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.entity=$row.entity$&amp;form.event=$row.event$&amp;form.intent=$row.intent$</link>
-          </condition-->
           <condition field="Visualise Query">
-            <link>nl_refine?form.query=$form.query$&amp;form.splquery=$row.splquery$&amp;form.entity=$form.entity$&amp;form.event=$form.event$&amp;form.stats_op=$stats_op$&amp;form.by=$by$&amp;form.and=$and$&amp;form.intent=$row.intent$&amp;form.and=-</link>
+            <link>nl?manual_tk=on&amp;form.visualisation=timechart&amp;timechart_tk=on&amp;form.intent=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.visualise=on&amp;form.adjetive=$row.adjective$&amp;form.entity=$row.entity$&amp;form.adverb=$row.adverb$&amp;form.event=$row.event$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.by$</link>
           </condition>
         </drilldown>
       </table>
     </panel>
   </row>
   <row>
-    <panel depends="$form.query$,$and_nl$,$adjective1$,$entity1$,$form.entity$,$adverb1$,$event1$,$stats_op$,$form.entity$,$by$">
+    <panel depends="$form.query$,$and_tk$,$adjective1$,$entity1$,$form.entity$,$adverb1$,$event1$,$stats_op$,$form.entity$,$by$">
       <title>Select Action</title>
       <table>
         <search>
-          <query>| `process_query("$form.query$","$and_nl$","$adjective1$ $entity1$ had $adverb1$ $event1$","$stats_op$","$by$")`</query>
+          <query>| `process_query("$form.query$","$and_tk$","$adjective1$ $entity1$ had $adverb1$ $event1$","$stats_op$","$by$")`</query>
           <earliest>$earliest$</earliest>
           <latest>$latest$</latest>
         </search>
         <option name="drilldown">row</option>
         <option name="refresh.display">progressbar</option>
         <option name="rowNumbers">false</option>
-        <fields>["intent","splquery","Visualise Query","status","limitations"]</fields>
+        <fields>["intent","splquery","Visualise Query","status","caveats"]</fields>
         <drilldown>
           <condition field="intent"></condition>
           <condition field="splquery"></condition>
           <condition field="status"></condition>
-          <!--condition field="Visualise Query">
-            <link>nl?manual_tk=on&amp;timechart_tk=on&amp;form.intent=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.entity=$row.entity$&amp;form.event=$row.event$&amp;form.intent=$row.intent$</link>
-          </condition-->
           <condition field="Visualise Query">
-            <link>nl_refine?form.query=$form.query$&amp;form.splquery=$row.splquery$&amp;form.event=$row.event$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.by$&amp;form.and=$row.and$&amp;form.intent=$row.intent$&amp;form.and=-&amp;form.adjective1=$adjective1$&amp;form.entity1=$entity1$&amp;form.adverb1=$adverb1$&amp;form.event1=$event1$</link>
+            <link>nl?manual_tk=on&amp;form.visualisation=timechart&amp;timechart_tk=on&amp;form.intent=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.visualise=on&amp;form.adjetive=$row.adjective$&amp;form.entity=$row.entity$&amp;form.adverb=$row.adverb$&amp;form.event=$row.event$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.by$</link>
           </condition>
         </drilldown>
       </table>
     </panel>
   </row>
   <row>
-    <panel depends="$form.query$,$and_nl$,$adjective1$,$entity1$,$form.entity$,$adverb1$,$event1$,$form.entity$" rejects="$by$">
+    <panel depends="$form.query$,$and_tk$,$adjective1$,$entity1$,$form.entity$,$adverb1$,$event1$,$form.entity$" rejects="$by$">
       <title>Select Action</title>
       <table>
         <search>
-          <query>| `process_query("$form.query$","$and_nl$","$adjective1$ $entity1$ had $adverb1$ $event1$","-","")`</query>
+          <query>| `process_query("$form.query$","$and_tk$","$adjective1$ $entity1$ had $adverb1$ $event1$","-","")`</query>
           <earliest>$earliest$</earliest>
           <latest>$latest$</latest>
         </search>
         <option name="drilldown">row</option>
         <option name="refresh.display">progressbar</option>
         <option name="rowNumbers">false</option>
-        <fields>["intent","splquery","Visualise Query","status","limitations"]</fields>
+        <fields>["intent","splquery","Visualise Query","status","caveats"]</fields>
         <drilldown>
           <condition field="intent"></condition>
           <condition field="splquery"></condition>
           <condition field="status"></condition>
-          <!--condition field="Visualise Query">
-            <link>nl?manual_tk=on&amp;timechart_tk=on&amp;form.intent=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.entity=$row.entity$&amp;form.event=$row.event$&amp;form.intent=$row.intent$</link>
-          </condition-->
           <condition field="Visualise Query">
-            <link>nl_refine?form.query=$form.query$&amp;form.splquery=$row.splquery$&amp;form.event=$row.event$&amp;form.stats_op=$row.stats_op$&amp;form.and=$row.and$&amp;form.intent=$row.intent$&amp;form.and=-&amp;form.adjective1=$adjective1$&amp;form.entity1=$entity1$&amp;form.adverb1=$adverb1$&amp;form.event1=$event1$</link>
+            <link>nl?manual_tk=on&amp;form.visualisation=timechart&amp;timechart_tk=on&amp;form.intent=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.visualise=on&amp;form.adjetive=$row.adjective$&amp;form.entity=$row.entity$&amp;form.adverb=$row.adverb$&amp;form.event=$row.event$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.by$</link>
           </condition>
         </drilldown>
-      </table>
-    </panel>
-  </row>
-  <row>
-    <panel depends="$form.intent$">
-      <table>
-        <title>Matching Events for $form.intent$</title>
-        <search base="base">
-          <query>| fields *.name, $form.event$.*,count*,host, source, sourcetype | fields - _raw</query>
-        </search>
-        <option name="drilldown">cell</option>
-        <option name="refresh.display">progressbar</option>
       </table>
     </panel>
   </row>
