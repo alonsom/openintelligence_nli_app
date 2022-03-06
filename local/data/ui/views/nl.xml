@@ -3,8 +3,6 @@
     <set token="MyPanelJobSID">$job.sid$</set>
     <set token="by">eventRoot</set>
     <set token="stats_op">-</set>
-    <unset token="form.help_tk"></unset>
-    <unset token="timechart_tk"></unset>
     <unset token="manual_tk"></unset>
   </init>
   <label>Natural Language Search</label>
@@ -115,21 +113,6 @@
         </condition>
       </change>
     </input>
-    <!--html>
-      <br/>
-    </html-->
-    <!-- input type="checkbox" token="help" searchWhenChanged="true" rejects="$form.splquery$">
-      <label>Options</label>
-      <choice value="on">Guided Mode</choice>
-      <change>
-        <condition value="on">
-          <set token="help_tk">on</set>
-        </condition>
-        <condition>
-          <unset token="help_tk"></unset>
-        </condition>
-      </change>
-    </input -->
     <input type="link" token="stats_op" searchWhenChanged="false" depends="$stats_op$,$entity$" rejects="$manual_tk$">
       <label>Entity</label>
       <fieldForLabel>entity</fieldForLabel>
@@ -146,25 +129,6 @@
         <query>| makeresults | eval by="$by$", event="$event$"</query>
       </search>
     </input>
-    <input type="dropdown" token="visualisation" depends="$form.splquery$" searchWhenChanged="true">
-      <label>Visualisation</label>
-      <change>
-        <condition value="timechart">
-          <set token="timechart_tk">timechart</set>
-          <unset token="pivot_tk"></unset>
-        </condition>
-        <condition value="pivot">
-          <unset token="timechart_tk"></unset>
-          <set token="pivot_tk">pivot</set>
-        </condition>
-      </change>
-      <fieldForLabel>visualisation</fieldForLabel>
-      <fieldForValue>visualisation</fieldForValue>
-      <search>
-        <query>| makeresults | eval stats_op=case(isnull("$stats_op$"),"","$stats_op$"=="-","","$stats_op$"=="","",1=1,"one"), visualisation=if(stats_op=="","timechart|pivot",""),visualisation=split(visualisation,"|") 
-|  mvexpand visualisation</query>
-      </search>
-    </input>
     <input type="time" token="time" depends="$form.splquery$" searchWhenChanged="true">
       <label></label>
       <default>
@@ -173,99 +137,6 @@
       </default>
     </input>
   </fieldset>
-  <!--row depends="$help_tk$" rejects="$entity$,$event$">
-    <panel>
-      <html>
-        <p>
-          <strong>Select an Entity or an Event</strong>
-          <br/>
-          <strong>*</strong>Start by selecting a relevant subject/object/component for your search (e.g. <i>account</i> is the main entity in the search: <i>privileged account with a failed authentication</i>). This entity will be part of the query result and might be used for joining events (if needed).
-          <br/>
-          <strong>*</strong>You could also select any event if your query is not related to any entity in particular
-        </p>
-    </html>
-    </panel>
-  </row>
-  <row depends="$entity$,$help_tk$" rejects="$event$">
-    <panel>
-      <html>
-        <p>
-          <strong>Select any of the events containing data related to the selected entity</strong>
-          <br/>
-          <strong>*</strong> You could  select an event (e.g. <i>authentication</i> in the search: <i>privileged account with a failed authentication</i>).
-          <br/>
-          <strong>*</strong> You could select any number of optional adjectives for qualifying the selected entity,  like <i>privileged</i> for privileged accounts, <i>all known</i> for well know entities or just leave <i>any</i> for matching any entity.
-        </p>
-    </html>
-    </panel>
-  </row>
-  <row depends="$event$,$help_tk$">
-    <panel>
-      <html>
-        <p>
-          <strong>Click on "Visualise Query"</strong>
-          <br/>
-          <strong>*</strong>Click on "Visualise Query" to execute the selected query and visualise the results in different ways
-          <br/>
-          <strong>*</strong>You could add one or more adverbs to qualify the events of interest
-          <br/>
-          <strong>*</strong>You could also click on "Refine Query" to build more complex correlation/statistical queries
-        </p>
-    </html>
-    </panel>
-  </row>
-  <row depends="$adjective$,$entity$,$adverb$,$event$,$stats_op$,$by$" rejects="$form.splquery$,$manual_tk$">
-    <panel>
-      <title>Select Intent, Query and Action</title>
-      <table>
-        <search>
-          <query>| `process_query("$adjective$ $entity$ with $adverb$ $event$","-","","$stats_op$","$by$")`</query>
-        </search>
-        <option name="drilldown">row</option>
-        <option name="refresh.display">progressbar</option>
-        <option name="rowNumbers">false</option>
-        <fields>["intent","splquery","Visualise Query","Refine Query","status","caveats"]</fields>
-        <drilldown>
-          <condition field="intent"></condition>
-          <condition field="splquery"></condition>
-          <condition field="status"></condition>
-          <condition field="caveats"></condition>
-          <condition field="Visualise Query">
-            <link>nl?manual_tk=on&amp;form.visualisation=timechart&amp;timechart_tk=on&amp;form.intent=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.visualise=on&amp;form.adjetive=$row.adjective$&amp;form.entity=$row.entity$&amp;form.adverb=$row.adverb$&amp;form.event=$row.event$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.by$</link>
-          </condition>
-          <condition field="Refine Query">
-            <link>nl_refine?form.query=$row.query$&amp;form.splquery=$row.splquery$&amp;form.entity=$row.entity$&amp;form.event=$row.event$&amp;form.adjective=$row.adjective$&amp;form.adverb=$row.adverb$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.by$</link>
-          </condition>
-        </drilldown>
-      </table>
-    </panel>
-  </row>
-  <row depends="$adverb$,$event$,$stats_op$,$by$" rejects="$form.splquery$,$manual_tk$,$entity$">
-    <panel>
-      <title>Select Intent, Query and Action</title>
-      <table>
-        <search>
-          <query>| `process_query("$adverb$ $event$","-","","$stats_op$","$by$")`</query>
-        </search>
-        <option name="drilldown">row</option>
-        <option name="refresh.display">progressbar</option>
-        <option name="rowNumbers">false</option>
-        <fields>["intent","splquery","Visualise Query","Refine Query","status","caveats"]</fields>
-        <drilldown>
-          <condition field="intent"></condition>
-          <condition field="splquery"></condition>
-          <condition field="status"></condition>
-          <condition field="caveats"></condition>
-          <condition field="Visualise Query">
-            <link>nl?manual_tk=on&amp;form.visualisation=timechart&amp;timechart_tk=on&amp;form.intent=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.visualise=on&amp;form.adjetive=$row.adjective$&amp;form.entity=$row.entity$&amp;form.adverb=$row.adverb$&amp;form.event=$row.event$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.by$</link>
-          </condition>
-          <condition field="Refine Query">
-            <link>nl_refine?form.query=$row.query$&amp;form.splquery=$row.splquery$&amp;form.entity=$row.entity$&amp;form.event=$row.event$&amp;form.adjective=$row.adjective$&amp;form.adverb=$row.adverb$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.entity$</link>
-          </condition>
-        </drilldown>
-      </table>
-    </panel>
-  </row -->
   <row depends="$intent$,$manual_tk$" rejects="$form.splquery$">
     <panel>
       <title>Select Intent, Query and Action</title>
@@ -283,7 +154,7 @@
           <condition field="status"></condition>
           <condition field="caveats"></condition>
           <condition field="Visualise Query">
-            <link>nl?manual_tk=on&amp;form.visualisation=timechart&amp;timechart_tk=on&amp;form.intent=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.visualise=on&amp;form.adjetive=$row.adjective$&amp;form.entity=$row.entity$&amp;form.adverb=$row.adverb$&amp;form.event=$row.event$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.by$</link>
+            <link>$row.visualisePage$?manual_tk=on&amp;form.visualisation=timechart&amp;timechart_tk=on&amp;form.intent=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.visualise=on&amp;form.adjective=$row.adjective$&amp;form.entity=$row.entity$&amp;form.adverb=$row.adverb$&amp;form.event=$row.event$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.by$</link>
           </condition>
           <condition field="Refine Query">
             <link>nl_refine?form.query=$row.query$&amp;form.splquery=$row.splquery$&amp;form.entity=$row.entity$&amp;form.event=$row.event$&amp;form.adjective=$row.adjective$&amp;form.adverb=$row.adverb$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.by$</link>
@@ -309,7 +180,7 @@
           <condition field="status"></condition>
           <condition field="caveats"></condition>
           <condition field="Visualise Query">
-            <link>nl?manual_tk=on&amp;form.visualisation=timechart&amp;timechart_tk=on&amp;form.intent=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.visualise=on&amp;form.adjetive=$row.adjective$&amp;form.entity=$row.entity$&amp;form.adverb=$row.adverb$&amp;form.event=$row.event$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.by$</link>
+            <link>$row.visualisePage$?manual_tk=on&amp;form.visualisation=timechart&amp;timechart_tk=on&amp;form.intent=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.visualise=on&amp;form.adjective=$row.adjective$&amp;form.entity=$row.entity$&amp;form.adverb=$row.adverb$&amp;form.event=$row.event$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.by$</link>
           </condition>
           <condition field="Refine Query">
             <link>nl_refine?form.query=$row.query$&amp;form.splquery=$row.splquery$&amp;form.entity=$row.entity$&amp;form.event=$row.event$&amp;form.adjective=$row.adjective$&amp;form.adverb=$row.adverb$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.by$</link>
@@ -330,44 +201,24 @@
         <option name="refresh.display">progressbar</option>
       </table>
     </panel>
-    <panel depends="$timechart_tk$" rejects="$pivot_tk$">
-      <title>Time Visualisation by Entity</title>
-      <chart>
-        <search base="base">
-          <query>| timechart count AS count_by_$form.entity$ by $form.entity$.name</query>
-        </search>
-        <option name="charting.axisTitleX.text">time</option>
-        <option name="charting.axisTitleY.text">count_by_$form.entity$</option>
-        <option name="charting.chart">line</option>
-        <option name="refresh.display">progressbar</option>
-      </chart>
-    </panel>
-    <panel depends="$pivot_tk$" rejects="$timechart_tk$">
-      <title>Count Visualisation by Entity</title>
-      <chart>
-        <search base="base">
-          <query>| eval eventRoot.name=sourcetype | stats count by $form.entity$.name</query>
-        </search>
-        <option name="charting.chart">line</option>
-        <option name="refresh.display">progressbar</option>
-      </chart>
-    </panel>
   </row>
   <row depends="$form.visualise$">
     <panel>
       <table>
         <search>
-          <query>| makeresults | eval "Refine Query"="CLICK HERE" | table "Refine Query"</query>
+          <query>| makeresults | appendcols [| rest /servicesNS/-/-/saved/searches | where title="$form.intent$" | eval result="yes" | table result  ] | eval result=if(result=="yes","yes","no") | eval "Refine Query"="CLICK HERE", "Save Search"="CLICK HERE" | table "Refine Query","Save Search"</query>
           <earliest>$earliest$</earliest>
           <latest>$latest$</latest>
         </search>
         <option name="drilldown">row</option>
         <option name="refresh.display">progressbar</option>
         <option name="rowNumbers">false</option>
-        <fields>["Refine Query"]</fields>
         <drilldown>
           <condition field="Refine Query">
-            <link>nl?form.intent=$form.intent$&amp;manual_tk=on</link>
+            <link>nl?form.intent=$form.intent$&amp;form.manual_tk=on</link>
+          </condition>
+          <condition field="Save Search">
+            <link>savedSearch?form.intent=$form.intent$&amp;form.splquery=$form.splquery$&amp;form.exists=$row.result$</link>
           </condition>
         </drilldown>
       </table>
@@ -378,8 +229,8 @@
       <title>Latest queries</title>
       <table>
         <search>
-          <query>`process_old_search`| eval "Visualise Query"="CLICK HERE","Refine Query"="CLICK HERE" | dedup splquery | table timestamp,user,intent, adjective, entity, adverb, event, splquery, "Visualise Query", "Refine Query"</query>
-          <earliest>$earliest$</earliest> 
+          <query>`process_old_search`| eval "Visualise Query"="CLICK HERE","Refine Query"="CLICK HERE" | dedup splquery | table timestamp,user,intent, adjective, entity, adverb, event, stats_op, by, splquery, visualisePage, "Visualise Query", "Refine Query"</query>
+          <earliest>$earliest$</earliest>
           <latest>$latest$</latest>
         </search>
         <option name="drilldown">row</option>
@@ -392,7 +243,7 @@
           <condition field="intent"></condition>
           <condition field="splquery"></condition>
           <condition field="Visualise Query">
-            <link>nl?manual_tk=on&amp;form.visualisation=timechart&amp;timechart_tk=on&amp;form.intent=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.visualise=on&amp;form.adjetive=$row.adjective$&amp;form.entity=$row.entity$&amp;form.adverb=$row.adverb$&amp;form.event=$row.event$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.by$</link>
+            <link>$row.visualisePage$?manual_tk=on&amp;form.visualisation=timechart&amp;timechart_tk=on&amp;form.intent=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.visualise=on&amp;form.adjective=$row.adjective$&amp;form.entity=$row.entity$&amp;form.adverb=$row.adverb$&amp;form.event=$row.event$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.by$</link>
           </condition>
           <condition field="Refine Query">
             <link>nl?form.intent=$row.intent$&amp;manual_tk=on</link>

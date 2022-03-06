@@ -6,18 +6,6 @@
     <earliest>$time.earliest$</earliest>
     <latest>$time.latest$</latest>
   </search>
-  <!--row>
-    <panel depends="$form.intent$">
-      <table>
-        <title>Matching Events for $form.intent$</title>
-        <search base="base">
-          <query>| fields *.name, $form.event$.*,count*,host, source, sourcetype | fields - _raw</query>
-        </search>
-        <option name="drilldown">cell</option>
-        <option name="refresh.display">progressbar</option>
-      </table>
-    </panel>
-  </row-->
   <fieldset submitButton="false" autoRun="true">
     <html>
       <a target="_self" href="nl">Reset the form before starting building a new query (click here to reset)</a>
@@ -194,7 +182,7 @@
           <condition field="splquery"></condition>
           <condition field="status"></condition>
           <condition field="Visualise Query">
-            <link>nl?manual_tk=on&amp;form.visualisation=timechart&amp;timechart_tk=on&amp;form.intent=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.visualise=on&amp;form.adjetive=$row.adjective$&amp;form.entity=$row.entity$&amp;form.adverb=$row.adverb$&amp;form.event=$row.event$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.by$</link>
+            <link>nl?manual_tk=on&amp;form.visualisation=timechart&amp;timechart_tk=on&amp;form.intent=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.visualise=on&amp;form.adjective=$row.adjective$&amp;form.entity=$row.entity$&amp;form.adverb=$row.adverb$&amp;form.event=$row.event$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.by$</link>
           </condition>
         </drilldown>
       </table>
@@ -218,7 +206,7 @@
           <condition field="splquery"></condition>
           <condition field="status"></condition>
           <condition field="Visualise Query">
-            <link>nl?manual_tk=on&amp;form.visualisation=timechart&amp;timechart_tk=on&amp;form.intent=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.visualise=on&amp;form.adjetive=$row.adjective$&amp;form.entity=$row.entity$&amp;form.adverb=$row.adverb$&amp;form.event=$row.event$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.by$</link>
+            <link>nl?manual_tk=on&amp;form.visualisation=timechart&amp;timechart_tk=on&amp;form.intent=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.visualise=on&amp;form.adjective=$row.adjective$&amp;form.entity=$row.entity$&amp;form.adverb=$row.adverb$&amp;form.event=$row.event$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.by$</link>
           </condition>
         </drilldown>
       </table>
@@ -242,7 +230,7 @@
           <condition field="splquery"></condition>
           <condition field="status"></condition>
           <condition field="Visualise Query">
-            <link>nl?manual_tk=on&amp;form.visualisation=timechart&amp;timechart_tk=on&amp;form.intent=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.visualise=on&amp;form.adjetive=$row.adjective$&amp;form.entity=$row.entity$&amp;form.adverb=$row.adverb$&amp;form.event=$row.event$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.by$</link>
+            <link>nl?manual_tk=on&amp;form.visualisation=timechart&amp;timechart_tk=on&amp;form.intent=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.visualise=on&amp;form.adjective=$row.adjective$&amp;form.entity=$row.entity$&amp;form.adverb=$row.adverb$&amp;form.event=$row.event$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.by$</link>
           </condition>
         </drilldown>
       </table>

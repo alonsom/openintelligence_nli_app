@@ -1,10 +1,8 @@
 <form hideEdit="true" theme="dark">
   <init>
-    <set token="MyPanelJobSID">$job.sid$</set>
     <set token="by">eventRoot</set>
     <set token="stats_op">-</set>
     <unset token="form.help_tk"></unset>
-    <unset token="timechart_tk"></unset>
   </init>
   <label>Natural Language Wizard</label>
   <!-- Base query include unique identification string and populations of all input fields required for the history links (visualise & refine) -->
@@ -156,7 +154,7 @@
           <condition field="status"></condition>
           <condition field="caveats"></condition>
           <condition field="Visualise Query">
-            <link>nl?manual_tk=on&amp;form.visualisation=timechart&amp;timechart_tk=on&amp;form.intent=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.visualise=on&amp;form.adjetive=$row.adjective$&amp;form.entity=$row.entity$&amp;form.adverb=$row.adverb$&amp;form.event=$row.event$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.by$</link>
+            <link>$row.visualisePage$?manual_tk=on&amp;form.visualisation=timechart&amp;timechart_tk=on&amp;form.intent=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.visualise=on&amp;form.adjective=$row.adjective$&amp;form.entity=$row.entity$&amp;form.adverb=$row.adverb$&amp;form.event=$row.event$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.by$</link>
           </condition>
           <condition field="Refine Query">
             <link>nl_refine?form.query=$row.query$&amp;form.splquery=$row.splquery$&amp;form.entity=$row.entity$&amp;form.event=$row.event$&amp;form.adjective=$row.adjective$&amp;form.adverb=$row.adverb$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.by$</link>
@@ -182,7 +180,7 @@
           <condition field="status"></condition>
           <condition field="caveats"></condition>
           <condition field="Visualise Query">
-            <link>nl?manual_tk=on&amp;form.visualisation=timechart&amp;timechart_tk=on&amp;form.intent=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.visualise=on&amp;form.adjetive=$row.adjective$&amp;form.entity=$row.entity$&amp;form.adverb=$row.adverb$&amp;form.event=$row.event$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.by$</link>
+            <link>$row.visualisePage$?manual_tk=on&amp;form.visualisation=timechart&amp;timechart_tk=on&amp;form.intent=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.visualise=on&amp;form.adjective=$row.adjective$&amp;form.entity=$row.entity$&amp;form.adverb=$row.adverb$&amp;form.event=$row.event$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.by$</link>
           </condition>
           <condition field="Refine Query">
             <link>nl_refine?form.query=$row.query$&amp;form.splquery=$row.splquery$&amp;form.entity=$row.entity$&amp;form.event=$row.event$&amp;form.adjective=$row.adjective$&amp;form.adverb=$row.adverb$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.entity$</link>
