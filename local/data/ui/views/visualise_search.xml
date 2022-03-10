@@ -37,8 +37,22 @@
       </default>
     </input>
   </fieldset>
+  <row depends="$form.visualise_search$">
+    <panel>
+      <title>Results for: $form.intent$</title>
+      <table>
+        <title>$form.splquery$</title>
+        <search base="base">
+          <query>| fields _time, *.name,host*, source*, sourcetype*, * | fields - _raw</query>
+        </search>
+        <option name="count">4</option>
+        <option name="drilldown">cell</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
   <row>
-    <panel depends="$timechart_tk$" rejects="$pivot_tk$">
+    <panel depends="$timechart_tk$,$form.entity$,$form.visualise_search$" rejects="$pivot_tk$">
       <title>Time Visualisation</title>
       <chart>
         <search base="base">
@@ -50,7 +64,7 @@
         <option name="refresh.display">progressbar</option>
       </chart>
     </panel>
-    <panel depends="$pivot_tk$" rejects="$timechart_tk$">
+    <panel depends="$pivot_tk$,$form.visualise_search$" rejects="$timechart_tk$">
       <title>Count Visualisation</title>
       <chart>
         <search base="base">
@@ -61,13 +75,13 @@
       </chart>
     </panel>
   </row>
-  <row depends="$form.intent$,$form.splquery$,$form.entity$">
+  <row depends="$form.intent$,$form.splquery$,$form.entity$" rejects="$form.visualise_search$">
     <panel>
       <title>Results for: $form.intent$</title>
       <table>
         <title>$form.splquery$</title>
         <search base="base">
-          <query>| fields _time, *.name,host*, source*, sourcetype*, * | fields - _raw</query>
+          <query>| fields *.name  | fields - _raw, _time</query>
         </search>
         <option name="drilldown">cell</option>
         <option name="refresh.display">progressbar</option>
@@ -78,20 +92,25 @@
     <panel>
       <table>
         <search>
-          <query>| makeresults | appendcols [| rest /servicesNS/-/-/saved/searches | where title="$form.intent$" | eval result="yes" | table result  ] | eval result=if(result=="yes","yes","no") | eval "Modify Query"="CLICK HERE", "Save Search"="CLICK HERE" | table "Modify Query","Save Search"</query>
+          <query>| makeresults | eval normalintent=replace("$form.intent$"," ","_") | appendcols [| rest /servicesNS/-/-/saved/searches | eval normalintent=replace("$form.intent$"," ","_") | where title=normalintent | eval result="yes" | table result  ] | eval result=if(result=="yes","yes","no"), "Exist Alert"=result | eval "Modify Query"="CLICK HERE", "Save Search"="CLICK HERE", "Matching Saved Search"="CLICK HERE" | table "Modify Query","Save Search", "Exist Alert", result,"Matching Saved Search",normalintent</query>
           <earliest>$earliest$</earliest>
           <latest>$latest$</latest>
         </search>
         <option name="drilldown">row</option>
         <option name="refresh.display">progressbar</option>
         <option name="rowNumbers">false</option>
+        <fields>["Modify Query","Save Search","Exist Alert", "Matching Saved Search"]</fields>
         <drilldown>
           <condition field="Modify Query">
             <link>nl?form.intent=$form.intent$&amp;form.manual_tk=on</link>
           </condition>
           <condition field="Save Search">
-            <link>savedSearch?form.intent=$form.intent$&amp;form.splquery=$form.splquery$</link>
+            <link>savedsearch?$row.result$=yes&amp;action=yes&amp;form.intent=$form.intent$&amp;form.splquery=$form.splquery$&amp;form.adjective=$form.adjective$&amp;form.entity=$form.entity$&amp;form.event=$form.event$&amp;form.adverb=$form.adverb$&amp;form.stats_op=$form.stats_op$&amp;form.by=$form.by$&amp;form.normalsplquery=$form.normalsplquery$&amp;form.normalintent=$row.normalintent$</link>
           </condition>
+          <condition field="Matching Saved Search">
+            <link>savedsearch?form.intent=$form.normalintent$&amp;form.adjective=$form.adjective$&amp;form.entity=$form.entity$&amp;form.event=$form.event$&amp;form.adverb=$form.adverb$&amp;form.stats_op=$form.stats_op$&amp;form.by=$form.by$&amp;form.normalsplquery=$form.normalsplquery$&amp;form.normalintent=$row.normalintent$</link>
+          </condition>
+          <condition field="Exist Alert"></condition>
         </drilldown>
       </table>
     </panel>

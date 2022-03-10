@@ -2,6 +2,7 @@
   <view name="nl" default="true"/>
   <view name="wizard" />
   <view name="search" />
+  <view name="savedsearch" />
   <view name="setup" />
   <view name="entities_mapping" />
 </nav>

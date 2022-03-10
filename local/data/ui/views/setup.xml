@@ -5,15 +5,14 @@
     <unset token="and_tk"></unset>
     <set token="help_tk">on</set>
   </init>
-  <label>Setup</label>
+  <label>Local Configuration</label>
   <search id="warnings">
     <query>| `check_rest_api` 
     </query>
   </search>
-  <fieldset submitButton="false" autoRun="true">
-  </fieldset>
   <row>
     <panel>
+      <title>Rules Server (for changing click on the field)</title>
       <table>
         <search base="warnings">
           <query>fields - _time | fields - result | eval pass="CLICK HERE"</query>
@@ -36,6 +35,28 @@
           <condition field="pass">
             <link target="_blank">/manager/search/data/macros/oi_pass?action=edit&amp;ns=openintelligence_nli_app&amp;pwnr=-&amp;app_only=1&amp;search=oi_&amp;count=25</link>
           </condition>
+        </drilldown>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Macros Indexes For Event</title>
+      <table>
+        <search>
+          <query>| inputlookup  indexForEvent.csv | join type=left macro [  | rest /services/configs/conf-macros | search args="" title="*sourcetype" eai:appName="openintelligence_nli_app" | rename title AS macro | table macro, definition, disabled ] | dedup macro |  eval macroparam=case(disabled=="0",macro,disabled=="1",macro,"1"=="1","_new"), "Warning"=case(disabled=="1","Macro is disabled",macroparam=="_new","Missing Macro","1"=="1",""), definition=if(macroparam="_new","Suggested value:".macro_value,definition), "Edit"="CLICK HERE" | table macro,definition,"Edit","Warning",macroparam</query>
+          <earliest>$earliest$</earliest>
+          <latest>$latest$</latest>
+        </search>
+        <option name="drilldown">row</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">false</option>
+        <fields>["macro","definition","Edit","Warning"]</fields>
+        <drilldown>
+          <condition field="Edit">
+            <link target="_blank">/manager/openintelligence_nli_app/data/macros/$row.macroparam$?action=edit</link>
+          </condition>
+          <condition></condition>
         </drilldown>
       </table>
     </panel>

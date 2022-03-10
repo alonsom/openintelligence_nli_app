@@ -182,7 +182,8 @@
           <condition field="splquery"></condition>
           <condition field="status"></condition>
           <condition field="Visualise Query">
-            <link>nl?manual_tk=on&amp;form.visualisation=timechart&amp;timechart_tk=on&amp;form.intent=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.visualise=on&amp;form.adjective=$row.adjective$&amp;form.entity=$row.entity$&amp;form.adverb=$row.adverb$&amp;form.event=$row.event$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.by$</link>
+            <link>visualise_search?form.$row.visualisePage$=on&amp;manual_tk=on&amp;form.visualisation=timechart&amp;timechart_tk=on&amp;form.intent=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.visualise=on&amp;form.adjective=$row.adjective$&amp;form.entity=$row.entity$&amp;form.adverb=$row.adverb$&amp;form.event=$row.event$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.by$&amp;form.normalsplquery=$row.normalsplquery$</link>
+            <!--link>nl?manual_tk=on&amp;form.visualisation=timechart&amp;timechart_tk=on&amp;form.intent=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.visualise=on&amp;form.adjective=$row.adjective$&amp;form.entity=$row.entity$&amp;form.adverb=$row.adverb$&amp;form.event=$row.event$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.by$</link-->
           </condition>
         </drilldown>
       </table>
