@@ -44,7 +44,7 @@
       <title>Macros Indexes For Event</title>
       <table>
         <search>
-          <query>| inputlookup  indexForEvent.csv | join type=left macro [  | rest /services/configs/conf-macros | search args="" title="*sourcetype" eai:appName="openintelligence_nli_app" | rename title AS macro | table macro, definition, disabled ] | dedup macro |  eval macroparam=case(disabled=="0",macro,disabled=="1",macro,"1"=="1","_new"), "Warning"=case(disabled=="1","Macro is disabled",macroparam=="_new","Missing Macro","1"=="1",""), definition=if(macroparam="_new","Suggested value:".macro_value,definition), "Edit"="CLICK HERE" | table macro,definition,"Edit","Warning",macroparam</query>
+          <query>| inputlookup  indexForEvent.csv | join type=left macro [  | rest /services/configs/conf-macros | search eai:acl.app="openintelligence_nli_app" | rename title AS macro | table macro, definition, disabled ] | dedup macro |  eval macroparam=case(disabled=="0",macro,disabled=="1",macro,"1"=="1","_new"), "Warning"=case(disabled=="1","Macro is disabled",macroparam=="_new","Missing Macro","1"=="1",""), definition=if(macroparam="_new","Suggested value:".macro_value,definition), "Edit"="CLICK HERE" | table macro,definition,"Edit","Warning",macroparam</query>
           <earliest>$earliest$</earliest>
           <latest>$latest$</latest>
         </search>

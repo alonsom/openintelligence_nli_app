@@ -1,203 +1,6 @@
 <form hideEdit="true" theme="dark">
-  <init>
-    <set token="MyPanelJobSID">$job.sid$</set>
-    <set token="by">eventRoot</set>
-    <set token="stats_op">-</set>
-    <unset token="manual_tk"></unset>
-  </init>
   <label>Natural Language Search</label>
-  <!-- Base query include unique identification string and populations of all input fields required for the history links (visualise & refine) -->
-  <!--search id="base">
-    <query>$form.splquery$ | eval m111=111,intent="$form.intent$",adjective="$form.adjective$",entity="$form.entity$",adverb="$form.adverb$",event="$form.event$",stats_op="$form.stats_op$",by="$form.by$"</query>
-    <earliest>$time.earliest$</earliest>
-    <latest>$time.latest$</latest>entity="$form.entity$",</search -->
-  <!--row depends="$form.splquery$,$form.entity$,$form.visualise$">
-    <panel>
-      <title>Results for: $form.intent$</title>
-      <table>
-        <title>$form.splquery$</title>
-        <search base="base">
-          <query>| fields *.name,count*,host*, source*, sourcetype* | fields - _raw</query>
-        </search>
-        <option name="drilldown">cell</option>
-        <option name="refresh.display">progressbar</option>
-      </table>
-    </panel>
-  </row>
-  <row depends="$form.visualise$">
-    <panel>
-      <table>
-        <search>
-          <query>| makeresults | appendcols [| rest /servicesNS/-/-/saved/searches | where title="$form.intent$" | eval result="yes" | table result  ] | eval result=if(result=="yes","yes","no") | eval "Refine Query"="CLICK HERE", "Save Search"="CLICK HERE" | table "Refine Query","Save Search"</query>
-          <earliest>$earliest$</earliest>
-          <latest>$latest$</latest>
-        </search>
-        <option name="drilldown">row</option>
-        <option name="refresh.display">progressbar</option>
-        <option name="rowNumbers">false</option>
-        <drilldown>
-          <condition field="Refine Query">
-            <link>nl?form.intent=$form.intent$&amp;form.manual_tk=on</link>
-          </condition>
-          <condition field="Save Search">
-            <link>savedSearch?form.intent=$form.intent$&amp;form.splquery=$form.splquery$&amp;form.exists=$row.result$</link>
-          </condition>
-        </drilldown>
-      </table>
-    </panel>
-  </row -->
-  <fieldset submitButton="false" autoRun="true">
-    <html>
-      <a target="_self" href="nl?query=">Reset the form before starting building a new query (click here to reset)</a>
-      <br/>
-    </html>
-    <input id="text" type="text" token="intent" searchWhenChanged="true" rejects="$form.splquery$,$help_tk$">
-      <label>Your Natural Language Query</label>
-      <change>
-        <condition value="">
-          <unset token="manual_tk"></unset>
-        </condition>
-        <condition>
-          <set token="manual_tk">on</set>
-        </condition>
-      </change>
-    </input>
-    <input type="multiselect" token="adjective" searchWhenChanged="true" rejects="$form.splquery$,$event$" depends="$help_tk$,$entity$">
-      <label>Adjective</label>
-      <fieldForLabel>adjective_clean</fieldForLabel>
-      <fieldForValue>adjective</fieldForValue>
-      <search>
-        <query>| `meta_query("adjective($entity$)")` 
-               | rename result AS adjective 
-               | eval adjective_clean=replace(adjective,"\_"," ")</query>
-      </search>
-      <change>
-        <condition>
-          <unset token="manual_tk"></unset>
-        </condition>
-      </change>
-      <choice value="any">Any</choice>
-      <default>any</default>
-      <delimiter>,</delimiter>
-      <initialValue>any</initialValue>
-    </input>
-    <input type="dropdown" token="entity" searchWhenChanged="true" rejects="$form.splquery$,$event$" depends="$help_tk$">
-      <label>Entity</label>
-      <fieldForLabel>entity_clean</fieldForLabel>
-      <fieldForValue>entity</fieldForValue>
-      <search>
-        <query>| inputlookup cached_entity.csv
-               | eval entity_clean=replace(entity,"\_"," ")</query>
-      </search>
-      <change>
-        <condition>
-          <unset token="manual_tk"></unset>
-        </condition>
-      </change>
-    </input>
-    <input type="link" token="entityno" searchWhenChanged="false" depends="$help_tk$,$entity$,$event$" rejects="$form.splquery$">
-      <label></label>
-      <fieldForLabel>adjective_entity</fieldForLabel>
-      <fieldForValue>entity</fieldForValue>
-      <search>
-        <query>| makeresults | eval entity="$entity$", adjective_entity="$adjective$ $entity$ with "</query>
-      </search>
-    </input>
-    <input type="multiselect" token="adverb" searchWhenChanged="true" depends="$help_tk$,$event$" rejects="$form.splquery$">
-      <label>Modifier</label>
-      <fieldForLabel>adverb_clean</fieldForLabel>
-      <fieldForValue>adverb</fieldForValue>
-      <search>
-        <query>| `meta_query("adverb($event$)")` 
-               | rename result AS adverb
-               | eval adverb_clean=replace(adverb,"\_"," ")
-        </query>
-      </search>
-      <change>
-        <condition>
-          <unset token="manual_tk"></unset>
-        </condition>
-      </change>
-      <choice value="any">Any</choice>
-      <default>any</default>
-      <initialValue>any</initialValue>
-      <delimiter>,</delimiter>
-    </input>
-    <input type="dropdown" token="event" searchWhenChanged="true" depends="$help_tk$,$entity$" rejects="$form.splquery$">
-      <label>Event</label>
-      <fieldForLabel>event_clean</fieldForLabel>
-      <fieldForValue>event</fieldForValue>
-      <search>
-        <query>| inputlookup cached_event.csv where entity="$entity$" 
-               | eval event_clean=replace(event,"\_"," ")</query>
-      </search>
-    </input>
-    <input type="dropdown" token="event" searchWhenChanged="true" depends="$help_tk$" rejects="$form.splquery$,$entity$">
-      <label>Event</label>
-      <fieldForLabel>event_clean</fieldForLabel>
-      <fieldForValue>event</fieldForValue>
-      <search>
-        <query>| inputlookup cached_event.csv where entity!="eventRoot" | dedup event
-               | eval event_clean=replace(event,"\_"," ")
-        </query>
-      </search>
-      <change>
-        <condition>
-          <unset token="manual_tk"></unset>
-        </condition>
-      </change>
-    </input>
-    <input type="link" token="stats_op" searchWhenChanged="false" depends="$stats_op$,$entity$" rejects="$manual_tk$">
-      <label>Entity</label>
-      <fieldForLabel>entity</fieldForLabel>
-      <fieldForValue>stats_op</fieldForValue>
-      <search>
-        <query>| makeresults | eval stats_op="$stats_op$", entity="$entity$"</query>
-      </search>
-    </input>
-    <input type="link" token="by" searchWhenChanged="false" depends="$by$,$event$" rejects="$manual_tk$">
-      <label>Event</label>
-      <fieldForLabel>event</fieldForLabel>
-      <fieldForValue>by</fieldForValue>
-      <search>
-        <query>| makeresults | eval by="$by$", event="$event$"</query>
-      </search>
-    </input>
-    <input type="time" token="time" depends="$form.splquery$" searchWhenChanged="true">
-      <label></label>
-      <default>
-        <earliest>-24h@h</earliest>
-        <latest>now</latest>
-      </default>
-    </input>
-  </fieldset>
-  <row depends="$intent$,$manual_tk$" rejects="$form.splquery$">
-    <panel>
-      <title>Select Intent, Query and Action</title>
-      <table>
-        <search>
-          <query>| `process_query("$intent$")`</query>
-        </search>
-        <option name="drilldown">row</option>
-        <option name="refresh.display">progressbar</option>
-        <option name="rowNumbers">false</option>
-        <fields>["intent","splquery","Visualise Query","Refine Query","status","caveats"]</fields>
-        <drilldown>
-          <condition field="intent"></condition>
-          <condition field="splquery"></condition>
-          <condition field="status"></condition>
-          <condition field="caveats"></condition>
-          <condition field="Visualise Query">
-            <link>visualise_search?form.$row.visualisePage$=on&amp;manual_tk=on&amp;form.visualisation=timechart&amp;timechart_tk=on&amp;form.intent=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.visualise=on&amp;form.adjective=$row.adjective$&amp;form.entity=$row.entity$&amp;form.adverb=$row.adverb$&amp;form.event=$row.event$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.by$&amp;form.normalsplquery=$row.normalsplquery$</link>
-          </condition>
-          <condition field="Refine Query">
-            <link>nl_refine?form.query=$row.query$&amp;form.splquery=$row.splquery$&amp;form.entity=$row.entity$&amp;form.event=$row.event$&amp;form.adjective=$row.adjective$&amp;form.adverb=$row.adverb$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.by$</link>
-          </condition>
-        </drilldown>
-      </table>
-    </panel>
-  </row>
-  <row depends="$intent$,$manual_tk$,$form.splquery$">
+  <!--row depends="$intent$,$manual_tk$,$form.splquery$">
     <panel>
       <title>$form.intent$</title>
       <table>
@@ -222,27 +25,73 @@
         </drilldown>
       </table>
     </panel>
-  </row>
-  <row rejects="$form.intent$">
+  </row-->
+  <fieldset submitButton="false" autoRun="true">
+    <html>
+      <a target="_self" href="nl">Reset the form before starting building a new query (click here to reset)</a>
+      <br/>
+    </html>
+    <input id="text" type="text" token="intent" searchWhenChanged="true">
+      <label>Your Natural Language Query</label>
+      <change>
+        <condition value="">
+          <unset token="manual_tk"></unset>
+        </condition>
+        <condition value=" ">
+          <unset token="manual_tk"></unset>
+        </condition>
+        <condition>
+          <set token="manual_tk">on</set>
+        </condition>
+      </change>
+    </input>
+  </fieldset>
+  <row depends="$intent$,$manual_tk$">
     <panel>
-      <title>Latest queries</title>
+      <title>Select Intent, Query and Action</title>
       <table>
         <search>
-          <query>`process_old_search`| eval "Visualise Query"="CLICK HERE","Refine Query"="CLICK HERE"  | sort -  _time | table timestamp,user,intent, adjective, entity, adverb, event, stats_op, by, splquery, normalsplquery,normalintent,visualisePage, "Visualise Query", "Refine Query"</query>
+          <query>| `process_query("$intent$")`</query>
+        </search>
+        <option name="drilldown">row</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">false</option>
+        <fields>["intent","splquery","Visualise Query","Refine Query","status","caveats"]</fields>
+        <drilldown>
+          <condition field="intent"></condition>
+          <condition field="splquery"></condition>
+          <condition field="status"></condition>
+          <condition field="caveats"></condition>
+          <condition field="Visualise Query">
+            <link>visualise_search?form.$row.visualisePage$=on&amp;form.intent=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.adjective=$row.adjective$&amp;form.entity=$row.entity$&amp;form.adverb=$row.adverb$&amp;form.event=$row.event$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.by$&amp;form.normalsplquery=$row.normalsplquery$</link>
+          </condition>
+          <condition field="Refine Query">
+            <link>nl_refine?form.query=$row.query$&amp;form.entity=$row.entity$&amp;form.event=$row.event$&amp;form.adjective=$row.adjective$&amp;form.adverb=$row.adverb$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.by$</link>
+          </condition>
+        </drilldown>
+      </table>
+    </panel>
+  </row>
+  <row rejects="$manual_tk$">
+    <panel>
+      <title>Latest Queries</title>
+      <table>
+        <search>
+          <query>`process_old_search`| eval "Visualise Query"="CLICK HERE","Refine Query"="CLICK HERE"  | sort -  _time </query>
           <earliest>$earliest$</earliest>
           <latest>$latest$</latest>
         </search>
         <option name="drilldown">row</option>
         <option name="refresh.display">progressbar</option>
         <option name="rowNumbers">false</option>
-        <fields>["timestamp","user","intent","splquery","Visualise Query","Refine Query"]</fields>
+        <fields>["_time","intent","splquery","Visualise Query","Refine Query"]</fields>
         <drilldown>
           <condition field="timestamp"></condition>
           <condition field="user"></condition>
           <condition field="intent"></condition>
           <condition field="splquery"></condition>
           <condition field="Visualise Query">
-            <link>visualise_search?form.$row.visualisePage$=on&amp;manual_tk=on&amp;form.visualisation=timechart&amp;timechart_tk=on&amp;form.intent=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.visualise=on&amp;form.adjective=$row.adjective$&amp;form.entity=$row.entity$&amp;ow.entity$&amp;form.adverb=$row.adverb$&amp;form.event=$row.event$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.by$&amp;form.normalsplquery=$row.normalsplquery$</link>
+            <link>visualise_search?form.$row.visualisePage$=on&amp;form.intent=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.adjective=$row.adjective$&amp;form.entity=$row.entity$&amp;form.adverb=$row.adverb$&amp;form.event=$row.event$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.by$&amp;form.normalsplquery=$row.normalsplquery$</link>
           </condition>
           <condition field="Refine Query">
             <link>nl?form.intent=$row.intent$&amp;manual_tk=on</link>
@@ -251,11 +100,9 @@
       </table>
     </panel>
   </row>
-  <row depends="noshow">
+  <row rejects="noshow">
     <panel>
       <html>
-        <!--color:#1A237E !important;
-          background-color:#F0F0F0 !important; -->
       <style>
         .splunk-textinput {
           min-width: 550px !important;

@@ -73,7 +73,7 @@
       <title>Saving a Search</title>
       <table>
         <search depends="$action$,$no$">
-          <query>| makeresults | appendcols [ | rest /servicesNS/-/-/saved/searches | where title="$form.normalintent$" | eval result="yes" ] | search NOT result="yes" | eval name="$form.normalintent$", query=replace("$form.normalsplquery$","___","\\\"") | where NOT name="*" | eval header="{\"content-type\":\"application/json\"}", data="{\"name\":\"".name."\",\"search\":\"".query."\"}" |  curl method=post uri=https://localhost:8089/services/saved/searches/ datafield=data splunkauth=true debug=true| eval data="{\"user\":\"nobody\",\"app\":\"openintelligence_nli_app\"}" |  curl method=post uri=https://localhost:8089/servicesNS/verylargoadmin/search/saved/searches/$form.normalintent$/move datafield=data splunkauth=true debug=true | eval "Save Result"=if(curl_status=="200","Create Successfull. Please Click Here","Create Failed. Please Click Here")| table "Save Result"</query>
+          <query>| makeresults | appendcols [ | rest /servicesNS/-/-/saved/searches | where title="$form.normalintent$" | eval result="yes" ] | search NOT result="yes" | eval name="$form.normalintent$", query=replace("$form.normalsplquery$","___","\\\"") | where NOT name="*" | eval header="{\"content-type\":\"application/json\"}", data="{\"name\":\"".name."\",\"search\":\"".query."\"}" |  curl method=post uri=https://localhost:8089/services/saved/searches/ datafield=data splunkauth=true debug=true| eval data="{\"user\":\"nobody\",\"app\":\"openintelligence_nli_app\"}" |  curl method=post uri=https://localhost:8089/servicesNS/$env:user$/search/saved/searches/$form.normalintent$/move datafield=data splunkauth=true debug=true | eval "Save Result"=if(curl_status=="200","Create Successfull. Please Click Here","Create Failed. Please Click Here")| table "Save Result"</query>
           <earliest>$earliest$</earliest>
           <latest>$latest$</latest>
         </search>
@@ -113,7 +113,7 @@
             <link>https://localhost:8443/en-GB/app/openintelligence_nli_app/search?q=%7C%20savedsearch%20$row.intent$</link>
           </condition>
           <condition field="Advanced Edit">
-            <link>https://localhost:8443/en-GB/manager/openintelligence_nli_app/saved/searches/advancededit?s=%2FservicesNS%2Fverylargoadmin%2Fsearch%2Fsaved%2Fsearches%2F$row.intent$</link>
+            <link>https://localhost:8443/en-GB/manager/openintelligence_nli_app/saved/searches/advancededit?s=%2FservicesNS%2F$env:user$%2Fsearch%2Fsaved%2Fsearches%2F$row.intent$</link>
           </condition>
           <condition></condition>
         </drilldown>
