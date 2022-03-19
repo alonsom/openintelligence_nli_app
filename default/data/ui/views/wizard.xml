@@ -97,7 +97,7 @@
         <p>
           <strong>Select an Entity or an Event</strong>
           <br/>
-          <strong>*</strong>Start by selecting a relevant entity/component for your search (e.g. <i>account</i> is the main entity in the search: <i>privileged account with a failed authentication</i>). This entity will be part of the query result and might be used for joining events (if needed).
+          <strong>*</strong>Start by selecting a relevant subject/object/component for your search (e.g. <i>account</i> is the main entity in the search: <i>privileged account with a failed authentication</i>). This entity will be part of the query result and might be used for joining events (if needed).
           <br/>
           <strong>*</strong>You could also select any event if your query is not related to any entity in particular
         </p>

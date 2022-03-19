@@ -1,5 +1,31 @@
 <form hideEdit="true" theme="dark">
   <label>Natural Language Search</label>
+  <!--row depends="$intent$,$manual_tk$,$form.splquery$">
+    <panel>
+      <title>$form.intent$</title>
+      <table>
+        <search>
+          <query>| `process_query("$form.intent$")`</query>
+        </search>
+        <option name="drilldown">row</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">false</option>
+        <fields>["splquery","Visualise Query","Refine Query","status","caveats"]</fields>
+        <drilldown>
+          <condition field="intent"></condition>
+          <condition field="splquery"></condition>
+          <condition field="status"></condition>
+          <condition field="caveats"></condition>
+          <condition field="Visualise Query">
+            <link>visualise_search?form.$row.visualisePage$=on&amp;manual_tk=on&amp;form.visualisation=timechart&amp;timechart_tk=on&amp;form.intent=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.visualise=on&amp;form.adjective=$row.adjective$&amp;form.entity=$row.entity$&amp;form.adverb=$row.adverb$&amp;form.event=$row.event$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.by$&amp;form.normalsplquery=$row.normalsplquery$</link>
+          </condition>
+          <condition field="Refine Query">
+            <link>nl_refine?form.query=$row.query$&amp;form.splquery=$row.splquery$&amp;form.entity=$row.entity$&amp;form.event=$row.event$&amp;form.adjective=$row.adjective$&amp;form.adverb=$row.adverb$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.by$&amp;form.normalsplquery=$row.normalsplquery$</link>
+          </condition>
+        </drilldown>
+      </table>
+    </panel>
+  </row-->
   <fieldset submitButton="false" autoRun="true">
     <html>
       <a target="_self" href="nl">Reset the form before starting building a new query (click here to reset)</a>
@@ -46,13 +72,12 @@
       </table>
     </panel>
   </row>
-  <!--row rejects="$manual_tk$" -->
-  <row>
+  <row rejects="$manual_tk$">
     <panel>
-      <title>Latest Visualised Queries</title>
+      <title>Latest Queries</title>
       <table>
         <search>
-          <query>`process_old_search`| dedup intent | eval "Visualise Query"="CLICK HERE","Refine Query"="CLICK HERE"  | sort -  _time</query>
+          <query>`process_old_search`| eval "Visualise Query"="CLICK HERE","Refine Query"="CLICK HERE"  | sort -  _time </query>
           <earliest>$earliest$</earliest>
           <latest>$latest$</latest>
         </search>

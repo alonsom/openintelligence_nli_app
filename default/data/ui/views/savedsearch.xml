@@ -110,11 +110,10 @@
         <option name="rowNumbers">false</option>
         <drilldown>
           <condition field="Execute">
-            <link>/app/openintelligence_nli_app/search?q=%7C%20savedsearch%20$row.intent$</link>
+            <link>https://localhost:8443/en-GB/app/openintelligence_nli_app/search?q=%7C%20savedsearch%20$row.intent$</link>
           </condition>
           <condition field="Advanced Edit">
-            <link>/manager/openintelligence_nli_app/saved/searches/advancededit?s=%2FservicesNS%2Fnobody%2Fopenintelligence_nli_app%2Fsaved%2Fsearches%2F$row.intent$</link>
-            <!--link>/manager/openintelligence_nli_app/saved/searches/advancededit?s=%2FservicesNS%2F$env:user$%2Fsearch%2Fsaved%2Fsearches%2F$row.intent$</link -->
+            <link>https://localhost:8443/en-GB/manager/openintelligence_nli_app/saved/searches/advancededit?s=%2FservicesNS%2F$env:user$%2Fsearch%2Fsaved%2Fsearches%2F$row.intent$</link>
           </condition>
           <condition></condition>
         </drilldown>

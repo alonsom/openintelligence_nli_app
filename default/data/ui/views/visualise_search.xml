@@ -5,7 +5,7 @@
   </init>
   <!-- Base query include unique identification string and populations of all input fields required for the history links (visualise & refine) -->
   <search id="base">
-    <query>$form.splquery$ | eval m111=111,"intent"="$form.intent$","adjective"="$form.adjective$","entity"="$form.entity$","adverb"="$form.adverb$","event"="$form.event$","stats_op"="$form.stats_op$","by"="$form.by$"</query>
+    <query>$form.splquery$ | eval m111=111,intent="$form.intent$",adjective="$form.adjective$",entity="$form.entity$",adverb="$form.adverb$",event="$form.event$",stats_op="$form.stats_op$",by="$form.by$"</query>
     <earliest>$time.earliest$</earliest>
     <latest>$time.latest$</latest>
   </search>
@@ -95,7 +95,7 @@
     <panel>
       <table>
         <search>
-          <query>| makeresults | eval normalintent=replace("$form.intent$"," ","_"),normalintent=replace(normalintent,",","_") | appendcols [| rest /servicesNS/-/-/saved/searches | eval normalintent=replace("$form.intent$"," ","_") | where title=normalintent | eval result="yes" | table result  ] | eval result=if(result=="yes","yes","no"), "Exist Alert"=result | eval "Modify Query"="CLICK HERE", "Save Search"="CLICK HERE", "Matching Saved Search"="CLICK HERE" | table "Modify Query","Save Search", "Exist Alert", result,"Matching Saved Search",normalintent</query>
+          <query>| makeresults | eval normalintent=replace("$form.intent$"," ","_") | appendcols [| rest /servicesNS/-/-/saved/searches | eval normalintent=replace("$form.intent$"," ","_") | where title=normalintent | eval result="yes" | table result  ] | eval result=if(result=="yes","yes","no"), "Exist Alert"=result | eval "Modify Query"="CLICK HERE", "Save Search"="CLICK HERE", "Matching Saved Search"="CLICK HERE" | table "Modify Query","Save Search", "Exist Alert", result,"Matching Saved Search",normalintent</query>
           <earliest>$earliest$</earliest>
           <latest>$latest$</latest>
         </search>
@@ -111,7 +111,7 @@
             <link>savedsearch?$row.result$=yes&amp;action=yes&amp;form.intent=$form.intent$&amp;form.splquery=$form.splquery$&amp;form.adjective=$form.adjective$&amp;form.entity=$form.entity$&amp;form.event=$form.event$&amp;form.adverb=$form.adverb$&amp;form.stats_op=$form.stats_op$&amp;form.by=$form.by$&amp;form.normalsplquery=$form.normalsplquery$&amp;form.normalintent=$row.normalintent$</link>
           </condition>
           <condition field="Matching Saved Search">
-            <link>savedsearch?form.adjective=$form.adjective$&amp;form.entity=$form.entity$&amp;form.event=$form.event$&amp;form.adverb=$form.adverb$&amp;form.stats_op=$form.stats_op$&amp;form.by=$form.by$&amp;form.normalsplquery=$form.normalsplquery</link>
+            <link>savedsearch?form.intent=$form.normalintent$&amp;form.adjective=$form.adjective$&amp;form.entity=$form.entity$&amp;form.event=$form.event$&amp;form.adverb=$form.adverb$&amp;form.stats_op=$form.stats_op$&amp;form.by=$form.by$&amp;form.normalsplquery=$form.normalsplquery$&amp;form.normalintent=$row.normalintent$</link>
           </condition>
           <condition field="Exist Alert"></condition>
         </drilldown>
