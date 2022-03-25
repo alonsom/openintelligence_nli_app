@@ -21,25 +21,24 @@
       <choice value="andnot">and is not true that</choice>
       <choice value="before">before</choice>
       <choice value="last">and the latest event about</choice>
-      <choice value="around">and around the same time</choice>
+      <!--choice value="around">and around the same time</choice-->
       <default>-</default>
       <initialValue>-</initialValue>
       <change>
         <condition value="-">
           <unset token="and_tk"></unset>
-          <!--set token="and_nl">-</set-->
         </condition>
         <condition value="and">
           <set token="and_tk">and</set>
         </condition>
         <condition value="andnot">
-          <set token="and_tk">and is not true that</set>
+          <set token="and_tk">and is not true</set>
         </condition>
         <condition value="before">
           <set token="and_tk">before</set>
         </condition>
         <condition value="last">
-          <set token="and_tk">and the latest event about</set>
+          <set token="and_tk">and the latest event</set>
         </condition>
       </change>
     </input>

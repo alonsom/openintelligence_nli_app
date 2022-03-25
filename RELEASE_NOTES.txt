@@ -1,5 +1,8 @@
-Version 1.0.2
+Version 2.0.0 (beta)
+This release brings a full Natural Language search bar oriented to end-users without SPL skills. 
+It also included an improved version of our standard natural language wizard, a history of queries and the ability to save queries for reusing and sharing purposes.
 
+Version 1.0.2
 This is the second update for the OpenIntelligence Natural Language Interface for Splunk (openintelligence_nli_app).
 Changes include:
 * Fixing images sizes, app.manifest and other changes required by AppInspect.
@@ -14,5 +17,4 @@ Changes include:
 * Release of associated public github project [openintelligence_nli_app](https://github.com/alonsom/openintelligence_nli_app).
 
 Version 1.0.0
-
 This is the first production release of the OpenIntelligence Natural Language Interface for Splunk (openintelligence_nli_app).

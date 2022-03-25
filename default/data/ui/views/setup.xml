@@ -5,7 +5,7 @@
     <unset token="and_tk"></unset>
     <set token="help_tk">on</set>
   </init>
-  <label>Local Configuration</label>
+  <label>Settings</label>
   <search id="warnings">
     <query>| `check_rest_api` 
     </query>

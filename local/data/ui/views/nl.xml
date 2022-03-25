@@ -1,5 +1,6 @@
 <form hideEdit="true" theme="dark">
   <label>Natural Language Search</label>
+  <!--row rejects="$manual_tk$" -->
   <fieldset submitButton="false" autoRun="true">
     <html>
       <a target="_self" href="nl">Reset the form before starting building a new query (click here to reset)</a>
@@ -46,10 +47,9 @@
       </table>
     </panel>
   </row>
-  <!--row rejects="$manual_tk$" -->
   <row>
     <panel>
-      <title>Latest Visualised Queries</title>
+      <title>History Visualised Queries</title>
       <table>
         <search>
           <query>`process_old_search`| dedup intent | eval "Visualise Query"="CLICK HERE","Refine Query"="CLICK HERE"  | sort -  _time</query>
