@@ -1,151 +1,146 @@
 entity,event,splunkObject,type,search
-account,"account_change","Account_Management",datamodel,"(\|*datamodel Account_Management) OR (tag\=change tag\=account )"
-account,alert,Alerts,datamodel,"(\|*datamodel Alerts) OR (tag\=alert )"
-account,"application_state",Processes,datamodel,"(\|*datamodel Processes) OR (tag\=process tag\=report )"
-account,applocker,XmlWinEventLog,search,"sourcetype\=Microsoft-Windows-Security-Auditing"
-account,authentication,Authentication,datamodel,"(\|*datamodel Authentication) OR (tag\=authentication )"
-account,backup,backup,search,"tag\=backup"
-account,"certificate_generation","All_Certificates",datamodel,"(\|*datamodel All_Certificates) OR (tag\=certificate )"
-account,change,"All_Changes",datamodel,"(\|*datamodel All_Changes) OR (tag\=change )"
-account,"data_exfiltration_attempt","DLP_Incidents",datamodel,"(\|*datamodel DLP_Incidents) OR (tag\=dlp tag\=incident )"
-account,"database_state","All_Databases",datamodel,"(\|*datamodel All_Databases) OR (tag\=database )"
-account,discovery,"All_Inventory",datamodel,"(\|*datamodel All_Inventory) OR (tag\=inventory )"
-account,email,"All_Email",datamodel,"(\|*datamodel All_Email) OR (tag\=email )"
-account,"filesystem_state",Filesystem,datamodel,"(\|*datamodel Filesystem) OR (tag\=endpoint tag\=filesystem )"
-account,"intrusion_detection","IDS_Attacks",datamodel,"(\|*datamodel IDS_Attacks) OR (tag\=ids tag\=attack )"
-account,"jvm_execution",JVM,datamodel,"(\|*datamodel JVM) OR (tag\=jvm )"
-account,"malware_infection","Malware_Attacks",datamodel,"(\|*datamodel Malware_Attacks) OR (tag\=malware tag\=attack )"
-account,"malware_remediation_attempt","Malware_Operations",datamodel,"(\|*datamodel Malware_Operations) OR (tag\=malware tag\=operations )"
-account,"message_reception","All_Messaging",datamodel,"(\|*datamodel All_Messaging) OR (tag\=messaging )"
-account,"multi_factor_authentication",Authentication,datamodel,"\|*datamodel Authentication"
-account,"network_request","All_Traffic",datamodel,"(\|*datamodel All_Traffic) OR (tag\=network tag\=communicate )"
-account,"network_resolution",DNS,datamodel,"(\|*datamodel DNS) OR (tag\=network tag\=resolution tag\=dns )"
-account,"network_session","All_Sessions",datamodel,"(\|*datamodel All_Sessions) OR (tag\=network tag\=session )"
-account,patch,Updates,datamodel,"(\|*datamodel Updates) OR (tag\=update tag\=status )"
-account,performance,"All_Performance",datamodel,"(\|*datamodel All_Performance) OR (tag\=performance ( tag\=cpu OR ( tag\=facilities OR ( tag\=memory OR ( tag\=storage OR ( tag\=network OR tag\=os ( tag\=time tag\=synchronize OR tag\=uptime ) ) ) ) ) ) )"
-account,"port_state",Ports,datamodel,"(\|*datamodel Ports) OR (tag\=listening tag\=port )"
-account,"registry_state",WinRegistry,search,"sourcetype\=audittrail sourcetype\=WinRegistry"
-account,"service_request","All_Ticket_Management",datamodel,"\|*datamodel All_Ticket_Management"
-account,"splunk_audit_modular_action","Modular_Actions",datamodel,"(\|*datamodel Modular_Actions) OR (tag\=modaction )"
-account,"splunk_ui_access","splunkd_ui_access",search,"sourcetype\=splunkd_ui_access"
-account,"web_request",Web,datamodel,"\|*datamodel Web"
-account,whitelist,XmlWinEventLog,search,"sourcetype\=XmlWinEventLog"
-account,"windows_event",XmlWinEventLog,search,"( sourcetype\=WinEventLog OR sourcetype\=XmlWinEventLog )"
-account,"windows_update",WindowsUpdateLog,search,"sourcetype\=WindowsUpdateLog"
-device,"account_change","Account_Management",datamodel,"(\|*datamodel Account_Management) OR (tag\=change tag\=account )"
-device,alert,Alerts,datamodel,"(\|*datamodel Alerts) OR (tag\=alert )"
-device,"application_state",Processes,datamodel,"(\|*datamodel Processes) OR (tag\=process tag\=report )"
-device,applocker,XmlWinEventLog,search,"sourcetype\=Microsoft-Windows-Security-Auditing"
-device,authentication,Authentication,datamodel,"(\|*datamodel Authentication) OR (tag\=authentication )"
-device,backup,backup,search,"tag\=backup"
-device,"certificate_generation","All_Certificates",datamodel,"(\|*datamodel All_Certificates) OR (tag\=certificate )"
-device,change,"All_Changes",datamodel,"(\|*datamodel All_Changes) OR (tag\=change )"
-device,"data_exfiltration_attempt","DLP_Incidents",datamodel,"(\|*datamodel DLP_Incidents) OR (tag\=dlp tag\=incident )"
-device,"database_state","All_Databases",datamodel,"(\|*datamodel All_Databases) OR (tag\=database )"
-device,discovery,"All_Inventory",datamodel,"(\|*datamodel All_Inventory) OR (tag\=inventory )"
-device,email,"All_Email",datamodel,"(\|*datamodel All_Email) OR (tag\=email )"
-device,"filesystem_state",Filesystem,datamodel,"(\|*datamodel Filesystem) OR (tag\=endpoint tag\=filesystem )"
-device,"intrusion_detection","IDS_Attacks",datamodel,"(\|*datamodel IDS_Attacks) OR (tag\=ids tag\=attack )"
-device,"jvm_execution",JVM,datamodel,"(\|*datamodel JVM) OR (tag\=jvm )"
-device,"malware_infection","Malware_Attacks",datamodel,"(\|*datamodel Malware_Attacks) OR (tag\=malware tag\=attack )"
-device,"malware_remediation_attempt","Malware_Operations",datamodel,"(\|*datamodel Malware_Operations) OR (tag\=malware tag\=operations )"
-device,"message_reception","All_Messaging",datamodel,"(\|*datamodel All_Messaging) OR (tag\=messaging )"
-device,"multi_factor_authentication",Authentication,datamodel,"\|*datamodel Authentication"
-device,"network_request","All_Traffic",datamodel,"(\|*datamodel All_Traffic) OR (tag\=network tag\=communicate )"
-device,"network_resolution",DNS,datamodel,"(\|*datamodel DNS) OR (tag\=network tag\=resolution tag\=dns )"
-device,"network_session","All_Sessions",datamodel,"(\|*datamodel All_Sessions) OR (tag\=network tag\=session )"
-device,patch,Updates,datamodel,"(\|*datamodel Updates) OR (tag\=update tag\=status )"
-device,performance,"All_Performance",datamodel,"(\|*datamodel All_Performance) OR (tag\=performance ( tag\=cpu OR ( tag\=facilities OR ( tag\=memory OR ( tag\=storage OR ( tag\=network OR tag\=os ( tag\=time tag\=synchronize OR tag\=uptime ) ) ) ) ) ) )"
-device,"port_state",Ports,datamodel,"(\|*datamodel Ports) OR (tag\=listening tag\=port )"
-device,"registry_state",WinRegistry,search,"sourcetype\=audittrail sourcetype\=WinRegistry"
-device,"service_request","All_Ticket_Management",datamodel,"\|*datamodel All_Ticket_Management"
-device,"splunk_audit_modular_action","Modular_Actions",datamodel,"(\|*datamodel Modular_Actions) OR (tag\=modaction )"
-device,"splunk_ui_access","splunkd_ui_access",search,"sourcetype\=splunkd_ui_access"
-device,vulnerability,Vulnerabilities,datamodel,"\|*datamodel Vulnerabilities"
-device,"web_request",Web,datamodel,"\|*datamodel Web"
-device,whitelist,XmlWinEventLog,search,"sourcetype\=XmlWinEventLog"
-device,"windows_event",XmlWinEventLog,search,"( sourcetype\=WinEventLog OR sourcetype\=XmlWinEventLog )"
-device,"windows_update",WindowsUpdateLog,search,"sourcetype\=WindowsUpdateLog"
-email,email,"All_Email",datamodel,"(\|*datamodel All_Email) OR (tag\=email )"
-eventRoot,"account_change","Account_Management",datamodel,"(\|*datamodel Account_Management) OR (tag\=change tag\=account )"
-eventRoot,alert,Alerts,datamodel,"(\|*datamodel Alerts) OR (tag\=alert )"
-eventRoot,"application_state",Processes,datamodel,"(\|*datamodel Processes) OR (tag\=process tag\=report )"
-eventRoot,applocker,XmlWinEventLog,search,"sourcetype\=Microsoft-Windows-Security-Auditing"
-eventRoot,authentication,Authentication,datamodel,"(\|*datamodel Authentication) OR (tag\=authentication )"
-eventRoot,backup,backup,search,"tag\=backup"
-eventRoot,"certificate_generation","All_Certificates",datamodel,"(\|*datamodel All_Certificates) OR (tag\=certificate )"
-eventRoot,change,"All_Changes",datamodel,"(\|*datamodel All_Changes) OR (tag\=change )"
-eventRoot,"data_exfiltration_attempt","DLP_Incidents",datamodel,"(\|*datamodel DLP_Incidents) OR (tag\=dlp tag\=incident )"
-eventRoot,"database_state","All_Databases",datamodel,"(\|*datamodel All_Databases) OR (tag\=database )"
-eventRoot,discovery,"All_Inventory",datamodel,"(\|*datamodel All_Inventory) OR (tag\=inventory )"
-eventRoot,email,"All_Email",datamodel,"(\|*datamodel All_Email) OR (tag\=email )"
-eventRoot,"filesystem_state",Filesystem,datamodel,"(\|*datamodel Filesystem) OR (tag\=endpoint tag\=filesystem )"
-eventRoot,"intrusion_detection","IDS_Attacks",datamodel,"(\|*datamodel IDS_Attacks) OR (tag\=ids tag\=attack )"
-eventRoot,"jvm_execution",JVM,datamodel,"(\|*datamodel JVM) OR (tag\=jvm )"
-eventRoot,"malware_infection","Malware_Attacks",datamodel,"(\|*datamodel Malware_Attacks) OR (tag\=malware tag\=attack )"
-eventRoot,"malware_remediation_attempt","Malware_Operations",datamodel,"(\|*datamodel Malware_Operations) OR (tag\=malware tag\=operations )"
-eventRoot,"message_reception","All_Messaging",datamodel,"(\|*datamodel All_Messaging) OR (tag\=messaging )"
-eventRoot,"multi_factor_authentication",Authentication,datamodel,"\|*datamodel Authentication"
-eventRoot,"nessus_plugin","nessus:plugin",search,"sourcetype\=nessus:plugin"
-eventRoot,"network_request","All_Traffic",datamodel,"(\|*datamodel All_Traffic) OR (tag\=network tag\=communicate )"
-eventRoot,"network_resolution",DNS,datamodel,"(\|*datamodel DNS) OR (tag\=network tag\=resolution tag\=dns )"
-eventRoot,"network_session","All_Sessions",datamodel,"(\|*datamodel All_Sessions) OR (tag\=network tag\=session )"
-eventRoot,patch,Updates,datamodel,"(\|*datamodel Updates) OR (tag\=update tag\=status )"
-eventRoot,performance,"All_Performance",datamodel,"(\|*datamodel All_Performance) OR (tag\=performance ( tag\=cpu OR ( tag\=facilities OR ( tag\=memory OR ( tag\=storage OR ( tag\=network OR tag\=os ( tag\=time tag\=synchronize OR tag\=uptime ) ) ) ) ) ) )"
-eventRoot,"port_state",Ports,datamodel,"(\|*datamodel Ports) OR (tag\=listening tag\=port )"
-eventRoot,"registry_state",WinRegistry,search,"sourcetype\=audittrail sourcetype\=WinRegistry"
-eventRoot,"service_request","All_Ticket_Management",datamodel,"\|*datamodel All_Ticket_Management"
-eventRoot,"splunk_audit_modular_action","Modular_Actions",datamodel,"(\|*datamodel Modular_Actions) OR (tag\=modaction )"
-eventRoot,"splunk_ui_access","splunkd_ui_access",search,"sourcetype\=splunkd_ui_access"
-eventRoot,"tenable_plugin","tenable:sc:plugin",search,"sourcetype\=tenable:sc:plugin"
-eventRoot,vulnerability,Vulnerabilities,datamodel,"\|*datamodel Vulnerabilities"
-eventRoot,"web_request",Web,datamodel,"\|*datamodel Web"
-eventRoot,whitelist,XmlWinEventLog,search,"sourcetype\=XmlWinEventLog"
-eventRoot,"windows_event",XmlWinEventLog,search,"( sourcetype\=WinEventLog OR sourcetype\=XmlWinEventLog )"
-eventRoot,"windows_update",WindowsUpdateLog,search,"sourcetype\=WindowsUpdateLog"
-executable,"account_change","Account_Management",datamodel,"(\|*datamodel Account_Management) OR (tag\=change tag\=account )"
-executable,alert,Alerts,datamodel,"(\|*datamodel Alerts) OR (tag\=alert )"
-executable,"application_state",Processes,datamodel,"(\|*datamodel Processes) OR (tag\=process tag\=report )"
-executable,applocker,XmlWinEventLog,search,"sourcetype\=Microsoft-Windows-Security-Auditing"
-executable,authentication,Authentication,datamodel,"(\|*datamodel Authentication) OR (tag\=authentication )"
-executable,backup,backup,search,"tag\=backup"
-executable,"certificate_generation","All_Certificates",datamodel,"(\|*datamodel All_Certificates) OR (tag\=certificate )"
-executable,change,"All_Changes",datamodel,"(\|*datamodel All_Changes) OR (tag\=change )"
-executable,"data_exfiltration_attempt","DLP_Incidents",datamodel,"(\|*datamodel DLP_Incidents) OR (tag\=dlp tag\=incident )"
-executable,"database_state","All_Databases",datamodel,"(\|*datamodel All_Databases) OR (tag\=database )"
-executable,discovery,"All_Inventory",datamodel,"(\|*datamodel All_Inventory) OR (tag\=inventory )"
-executable,email,"All_Email",datamodel,"(\|*datamodel All_Email) OR (tag\=email )"
-executable,"filesystem_state",Filesystem,datamodel,"(\|*datamodel Filesystem) OR (tag\=endpoint tag\=filesystem )"
-executable,"intrusion_detection","IDS_Attacks",datamodel,"(\|*datamodel IDS_Attacks) OR (tag\=ids tag\=attack )"
-executable,"jvm_execution",JVM,datamodel,"(\|*datamodel JVM) OR (tag\=jvm )"
-executable,"malware_infection","Malware_Attacks",datamodel,"(\|*datamodel Malware_Attacks) OR (tag\=malware tag\=attack )"
-executable,"malware_remediation_attempt","Malware_Operations",datamodel,"(\|*datamodel Malware_Operations) OR (tag\=malware tag\=operations )"
-executable,"message_reception","All_Messaging",datamodel,"(\|*datamodel All_Messaging) OR (tag\=messaging )"
-executable,"multi_factor_authentication",Authentication,datamodel,"\|*datamodel Authentication"
-executable,"network_request","All_Traffic",datamodel,"(\|*datamodel All_Traffic) OR (tag\=network tag\=communicate )"
-executable,"network_resolution",DNS,datamodel,"(\|*datamodel DNS) OR (tag\=network tag\=resolution tag\=dns )"
-executable,"network_session","All_Sessions",datamodel,"(\|*datamodel All_Sessions) OR (tag\=network tag\=session )"
-executable,patch,Updates,datamodel,"(\|*datamodel Updates) OR (tag\=update tag\=status )"
-executable,performance,"All_Performance",datamodel,"(\|*datamodel All_Performance) OR (tag\=performance ( tag\=cpu OR ( tag\=facilities OR ( tag\=memory OR ( tag\=storage OR ( tag\=network OR tag\=os ( tag\=time tag\=synchronize OR tag\=uptime ) ) ) ) ) ) )"
-executable,"port_state",Ports,datamodel,"(\|*datamodel Ports) OR (tag\=listening tag\=port )"
-executable,"registry_state",WinRegistry,search,"sourcetype\=audittrail sourcetype\=WinRegistry"
-executable,"service_request","All_Ticket_Management",datamodel,"\|*datamodel All_Ticket_Management"
-executable,"splunk_audit_modular_action","Modular_Actions",datamodel,"(\|*datamodel Modular_Actions) OR (tag\=modaction )"
-executable,"splunk_ui_access","splunkd_ui_access",search,"sourcetype\=splunkd_ui_access"
-executable,"web_request",Web,datamodel,"\|*datamodel Web"
-executable,whitelist,XmlWinEventLog,search,"sourcetype\=XmlWinEventLog"
-executable,"windows_event",XmlWinEventLog,search,"( sourcetype\=WinEventLog OR sourcetype\=XmlWinEventLog )"
-executable,"windows_update",WindowsUpdateLog,search,"sourcetype\=WindowsUpdateLog"
-location,applocker,XmlWinEventLog,search,"sourcetype\=Microsoft-Windows-Security-Auditing"
-location,whitelist,XmlWinEventLog,search,"sourcetype\=XmlWinEventLog"
-location,"windows_event",XmlWinEventLog,search,"( sourcetype\=WinEventLog OR sourcetype\=XmlWinEventLog )"
-location,"windows_update",WindowsUpdateLog,search,"sourcetype\=WindowsUpdateLog"
-plugin,"nessus_plugin","nessus:plugin",search,"sourcetype\=nessus:plugin"
-plugin,patch,Updates,datamodel,"(\|*datamodel Updates) OR (tag\=update tag\=status )"
-plugin,"tenable_plugin","tenable:sc:plugin",search,"sourcetype\=tenable:sc:plugin"
-plugin,vulnerability,Vulnerabilities,datamodel,"\|*datamodel Vulnerabilities"
-product,"malware_infection","Malware_Attacks",datamodel,"(\|*datamodel Malware_Attacks) OR (tag\=malware tag\=attack )"
-protocol,"intrusion_detection","IDS_Attacks",datamodel,"(\|*datamodel IDS_Attacks) OR (tag\=ids tag\=attack )"
-"vulnerability_info","nessus_plugin","nessus:plugin",search,"sourcetype\=nessus:plugin"
-"vulnerability_info","tenable_plugin","tenable:sc:plugin",search,"sourcetype\=tenable:sc:plugin"
-"vulnerability_info",vulnerability,Vulnerabilities,datamodel,"\|*datamodel Vulnerabilities"
+account,account_change,Account_Management,datamodel,(\|*datamodel Account_Management) OR (tag\=change tag\=account )
+account,alert,Alerts,datamodel,(\|*datamodel Alerts) OR (tag\=alert )
+account,application_state,Processes,datamodel,(\|*datamodel Processes) OR (tag\=process tag\=report )
+account,applocker,XmlWinEventLog,search,sourcetype\=Microsoft-Windows-Security-Auditing
+account,authentication,Authentication,datamodel,(\|*datamodel Authentication) OR (tag\=authentication )
+account,backup,backup,search,tag\=backup
+account,certificate_generation,All_Certificates,datamodel,(\|*datamodel All_Certificates) OR (tag\=certificate )
+account,change,All_Changes,datamodel,(\|*datamodel All_Changes) OR (tag\=change )
+account,data_exfiltration_attempt,DLP_Incidents,datamodel,(\|*datamodel DLP_Incidents) OR (tag\=dlp tag\=incident )
+account,database_state,All_Databases,datamodel,(\|*datamodel All_Databases) OR (tag\=database )
+account,discovery,All_Inventory,datamodel,(\|*datamodel All_Inventory) OR (tag\=inventory )
+account,email,All_Email,datamodel,(\|*datamodel All_Email) OR (tag\=email )
+account,filesystem_state,Filesystem,datamodel,(\|*datamodel Filesystem) OR (tag\=endpoint tag\=filesystem )
+account,intrusion_detection,IDS_Attacks,datamodel,(\|*datamodel IDS_Attacks) OR (tag\=ids tag\=attack )
+account,jvm_execution,JVM,datamodel,(\|*datamodel JVM) OR (tag\=jvm )
+account,malware_infection,Malware_Attacks,datamodel,(\|*datamodel Malware_Attacks) OR (tag\=malware tag\=attack )
+account,malware_remediation_attempt,Malware_Operations,datamodel,(\|*datamodel Malware_Operations) OR (tag\=malware tag\=operations )
+account,message_reception,All_Messaging,datamodel,(\|*datamodel All_Messaging) OR (tag\=messaging )
+account,multi_factor_authentication,Authentication,datamodel,\|*datamodel Authentication
+account,network_request,All_Traffic,datamodel,(\|*datamodel All_Traffic) OR (tag\=network tag\=communicate )
+account,network_resolution,DNS,datamodel,(\|*datamodel DNS) OR (tag\=network tag\=resolution tag\=dns )
+account,network_session,All_Sessions,datamodel,(\|*datamodel All_Sessions) OR (tag\=network tag\=session )
+account,patch,Updates,datamodel,(\|*datamodel Updates) OR (tag\=update tag\=status )
+account,performance,All_Performance,datamodel,(\|*datamodel All_Performance) OR (tag\=performance ( tag\=cpu OR ( tag\=facilities OR ( tag\=memory OR ( tag\=storage OR ( tag\=network OR tag\=os ( tag\=time tag\=synchronize OR tag\=uptime ) ) ) ) ) ) )
+account,port_state,Ports,datamodel,(\|*datamodel Ports) OR (tag\=listening tag\=port )
+account,registry_state,WinRegistry,search,sourcetype\=audittrail sourcetype\=WinRegistry
+account,service_request,All_Ticket_Management,datamodel,\|*datamodel All_Ticket_Management
+account,splunk_audit_modular_action,Modular_Actions,datamodel,(\|*datamodel Modular_Actions) OR (tag\=modaction )
+account,splunk_ui_access,splunkd_ui_access,search,sourcetype\=splunkd_ui_access
+account,web_request,Web,datamodel,\|*datamodel Web
+account,windows_event,XmlWinEventLog,search,( sourcetype\=WinEventLog OR sourcetype\=XmlWinEventLog )
+account,windows_update,WindowsUpdateLog,search,sourcetype\=WindowsUpdateLog
+device,account_change,Account_Management,datamodel,(\|*datamodel Account_Management) OR (tag\=change tag\=account )
+device,alert,Alerts,datamodel,(\|*datamodel Alerts) OR (tag\=alert )
+device,application_state,Processes,datamodel,(\|*datamodel Processes) OR (tag\=process tag\=report )
+device,applocker,XmlWinEventLog,search,sourcetype\=Microsoft-Windows-Security-Auditing
+device,authentication,Authentication,datamodel,(\|*datamodel Authentication) OR (tag\=authentication )
+device,backup,backup,search,tag\=backup
+device,certificate_generation,All_Certificates,datamodel,(\|*datamodel All_Certificates) OR (tag\=certificate )
+device,change,All_Changes,datamodel,(\|*datamodel All_Changes) OR (tag\=change )
+device,data_exfiltration_attempt,DLP_Incidents,datamodel,(\|*datamodel DLP_Incidents) OR (tag\=dlp tag\=incident )
+device,database_state,All_Databases,datamodel,(\|*datamodel All_Databases) OR (tag\=database )
+device,discovery,All_Inventory,datamodel,(\|*datamodel All_Inventory) OR (tag\=inventory )
+device,email,All_Email,datamodel,(\|*datamodel All_Email) OR (tag\=email )
+device,filesystem_state,Filesystem,datamodel,(\|*datamodel Filesystem) OR (tag\=endpoint tag\=filesystem )
+device,intrusion_detection,IDS_Attacks,datamodel,(\|*datamodel IDS_Attacks) OR (tag\=ids tag\=attack )
+device,jvm_execution,JVM,datamodel,(\|*datamodel JVM) OR (tag\=jvm )
+device,malware_infection,Malware_Attacks,datamodel,(\|*datamodel Malware_Attacks) OR (tag\=malware tag\=attack )
+device,malware_remediation_attempt,Malware_Operations,datamodel,(\|*datamodel Malware_Operations) OR (tag\=malware tag\=operations )
+device,message_reception,All_Messaging,datamodel,(\|*datamodel All_Messaging) OR (tag\=messaging )
+device,multi_factor_authentication,Authentication,datamodel,\|*datamodel Authentication
+device,network_request,All_Traffic,datamodel,(\|*datamodel All_Traffic) OR (tag\=network tag\=communicate )
+device,network_resolution,DNS,datamodel,(\|*datamodel DNS) OR (tag\=network tag\=resolution tag\=dns )
+device,network_session,All_Sessions,datamodel,(\|*datamodel All_Sessions) OR (tag\=network tag\=session )
+device,patch,Updates,datamodel,(\|*datamodel Updates) OR (tag\=update tag\=status )
+device,performance,All_Performance,datamodel,(\|*datamodel All_Performance) OR (tag\=performance ( tag\=cpu OR ( tag\=facilities OR ( tag\=memory OR ( tag\=storage OR ( tag\=network OR tag\=os ( tag\=time tag\=synchronize OR tag\=uptime ) ) ) ) ) ) )
+device,port_state,Ports,datamodel,(\|*datamodel Ports) OR (tag\=listening tag\=port )
+device,registry_state,WinRegistry,search,sourcetype\=audittrail sourcetype\=WinRegistry
+device,service_request,All_Ticket_Management,datamodel,\|*datamodel All_Ticket_Management
+device,splunk_audit_modular_action,Modular_Actions,datamodel,(\|*datamodel Modular_Actions) OR (tag\=modaction )
+device,splunk_ui_access,splunkd_ui_access,search,sourcetype\=splunkd_ui_access
+device,vulnerability,Vulnerabilities,datamodel,\|*datamodel Vulnerabilities
+device,web_request,Web,datamodel,\|*datamodel Web
+device,windows_event,XmlWinEventLog,search,( sourcetype\=WinEventLog OR sourcetype\=XmlWinEventLog )
+device,windows_update,WindowsUpdateLog,search,sourcetype\=WindowsUpdateLog
+email,email,All_Email,datamodel,(\|*datamodel All_Email) OR (tag\=email )
+eventRoot,account_change,Account_Management,datamodel,(\|*datamodel Account_Management) OR (tag\=change tag\=account )
+eventRoot,alert,Alerts,datamodel,(\|*datamodel Alerts) OR (tag\=alert )
+eventRoot,application_state,Processes,datamodel,(\|*datamodel Processes) OR (tag\=process tag\=report )
+eventRoot,applocker,XmlWinEventLog,search,sourcetype\=Microsoft-Windows-Security-Auditing
+eventRoot,authentication,Authentication,datamodel,(\|*datamodel Authentication) OR (tag\=authentication )
+eventRoot,backup,backup,search,tag\=backup
+eventRoot,certificate_generation,All_Certificates,datamodel,(\|*datamodel All_Certificates) OR (tag\=certificate )
+eventRoot,change,All_Changes,datamodel,(\|*datamodel All_Changes) OR (tag\=change )
+eventRoot,data_exfiltration_attempt,DLP_Incidents,datamodel,(\|*datamodel DLP_Incidents) OR (tag\=dlp tag\=incident )
+eventRoot,database_state,All_Databases,datamodel,(\|*datamodel All_Databases) OR (tag\=database )
+eventRoot,discovery,All_Inventory,datamodel,(\|*datamodel All_Inventory) OR (tag\=inventory )
+eventRoot,email,All_Email,datamodel,(\|*datamodel All_Email) OR (tag\=email )
+eventRoot,filesystem_state,Filesystem,datamodel,(\|*datamodel Filesystem) OR (tag\=endpoint tag\=filesystem )
+eventRoot,intrusion_detection,IDS_Attacks,datamodel,(\|*datamodel IDS_Attacks) OR (tag\=ids tag\=attack )
+eventRoot,jvm_execution,JVM,datamodel,(\|*datamodel JVM) OR (tag\=jvm )
+eventRoot,malware_infection,Malware_Attacks,datamodel,(\|*datamodel Malware_Attacks) OR (tag\=malware tag\=attack )
+eventRoot,malware_remediation_attempt,Malware_Operations,datamodel,(\|*datamodel Malware_Operations) OR (tag\=malware tag\=operations )
+eventRoot,message_reception,All_Messaging,datamodel,(\|*datamodel All_Messaging) OR (tag\=messaging )
+eventRoot,multi_factor_authentication,Authentication,datamodel,\|*datamodel Authentication
+eventRoot,nessus_plugin,nessus:plugin,search,sourcetype\=nessus:plugin
+eventRoot,network_request,All_Traffic,datamodel,(\|*datamodel All_Traffic) OR (tag\=network tag\=communicate )
+eventRoot,network_resolution,DNS,datamodel,(\|*datamodel DNS) OR (tag\=network tag\=resolution tag\=dns )
+eventRoot,network_session,All_Sessions,datamodel,(\|*datamodel All_Sessions) OR (tag\=network tag\=session )
+eventRoot,patch,Updates,datamodel,(\|*datamodel Updates) OR (tag\=update tag\=status )
+eventRoot,performance,All_Performance,datamodel,(\|*datamodel All_Performance) OR (tag\=performance ( tag\=cpu OR ( tag\=facilities OR ( tag\=memory OR ( tag\=storage OR ( tag\=network OR tag\=os ( tag\=time tag\=synchronize OR tag\=uptime ) ) ) ) ) ) )
+eventRoot,port_state,Ports,datamodel,(\|*datamodel Ports) OR (tag\=listening tag\=port )
+eventRoot,registry_state,WinRegistry,search,sourcetype\=audittrail sourcetype\=WinRegistry
+eventRoot,service_request,All_Ticket_Management,datamodel,\|*datamodel All_Ticket_Management
+eventRoot,splunk_audit_modular_action,Modular_Actions,datamodel,(\|*datamodel Modular_Actions) OR (tag\=modaction )
+eventRoot,splunk_ui_access,splunkd_ui_access,search,sourcetype\=splunkd_ui_access
+eventRoot,tenable_plugin,tenable:sc:plugin,search,sourcetype\=tenable:sc:plugin
+eventRoot,vulnerability,Vulnerabilities,datamodel,\|*datamodel Vulnerabilities
+eventRoot,web_request,Web,datamodel,\|*datamodel Web
+eventRoot,windows_event,XmlWinEventLog,search,( sourcetype\=WinEventLog OR sourcetype\=XmlWinEventLog )
+eventRoot,windows_update,WindowsUpdateLog,search,sourcetype\=WindowsUpdateLog
+executable,account_change,Account_Management,datamodel,(\|*datamodel Account_Management) OR (tag\=change tag\=account )
+executable,alert,Alerts,datamodel,(\|*datamodel Alerts) OR (tag\=alert )
+executable,application_state,Processes,datamodel,(\|*datamodel Processes) OR (tag\=process tag\=report )
+executable,applocker,XmlWinEventLog,search,sourcetype\=Microsoft-Windows-Security-Auditing
+executable,authentication,Authentication,datamodel,(\|*datamodel Authentication) OR (tag\=authentication )
+executable,backup,backup,search,tag\=backup
+executable,certificate_generation,All_Certificates,datamodel,(\|*datamodel All_Certificates) OR (tag\=certificate )
+executable,change,All_Changes,datamodel,(\|*datamodel All_Changes) OR (tag\=change )
+executable,data_exfiltration_attempt,DLP_Incidents,datamodel,(\|*datamodel DLP_Incidents) OR (tag\=dlp tag\=incident )
+executable,database_state,All_Databases,datamodel,(\|*datamodel All_Databases) OR (tag\=database )
+executable,discovery,All_Inventory,datamodel,(\|*datamodel All_Inventory) OR (tag\=inventory )
+executable,email,All_Email,datamodel,(\|*datamodel All_Email) OR (tag\=email )
+executable,filesystem_state,Filesystem,datamodel,(\|*datamodel Filesystem) OR (tag\=endpoint tag\=filesystem )
+executable,intrusion_detection,IDS_Attacks,datamodel,(\|*datamodel IDS_Attacks) OR (tag\=ids tag\=attack )
+executable,jvm_execution,JVM,datamodel,(\|*datamodel JVM) OR (tag\=jvm )
+executable,malware_infection,Malware_Attacks,datamodel,(\|*datamodel Malware_Attacks) OR (tag\=malware tag\=attack )
+executable,malware_remediation_attempt,Malware_Operations,datamodel,(\|*datamodel Malware_Operations) OR (tag\=malware tag\=operations )
+executable,message_reception,All_Messaging,datamodel,(\|*datamodel All_Messaging) OR (tag\=messaging )
+executable,multi_factor_authentication,Authentication,datamodel,\|*datamodel Authentication
+executable,network_request,All_Traffic,datamodel,(\|*datamodel All_Traffic) OR (tag\=network tag\=communicate )
+executable,network_resolution,DNS,datamodel,(\|*datamodel DNS) OR (tag\=network tag\=resolution tag\=dns )
+executable,network_session,All_Sessions,datamodel,(\|*datamodel All_Sessions) OR (tag\=network tag\=session )
+executable,patch,Updates,datamodel,(\|*datamodel Updates) OR (tag\=update tag\=status )
+executable,performance,All_Performance,datamodel,(\|*datamodel All_Performance) OR (tag\=performance ( tag\=cpu OR ( tag\=facilities OR ( tag\=memory OR ( tag\=storage OR ( tag\=network OR tag\=os ( tag\=time tag\=synchronize OR tag\=uptime ) ) ) ) ) ) )
+executable,port_state,Ports,datamodel,(\|*datamodel Ports) OR (tag\=listening tag\=port )
+executable,registry_state,WinRegistry,search,sourcetype\=audittrail sourcetype\=WinRegistry
+executable,service_request,All_Ticket_Management,datamodel,\|*datamodel All_Ticket_Management
+executable,splunk_audit_modular_action,Modular_Actions,datamodel,(\|*datamodel Modular_Actions) OR (tag\=modaction )
+executable,splunk_ui_access,splunkd_ui_access,search,sourcetype\=splunkd_ui_access
+executable,web_request,Web,datamodel,\|*datamodel Web
+executable,windows_event,XmlWinEventLog,search,( sourcetype\=WinEventLog OR sourcetype\=XmlWinEventLog )
+executable,windows_update,WindowsUpdateLog,search,sourcetype\=WindowsUpdateLog
+location,applocker,XmlWinEventLog,search,sourcetype\=Microsoft-Windows-Security-Auditing
+location,windows_event,XmlWinEventLog,search,( sourcetype\=WinEventLog OR sourcetype\=XmlWinEventLog )
+location,windows_update,WindowsUpdateLog,search,sourcetype\=WindowsUpdateLog
+plugin,nessus_plugin,nessus:plugin,search,sourcetype\=nessus:plugin
+plugin,patch,Updates,datamodel,(\|*datamodel Updates) OR (tag\=update tag\=status )
+plugin,tenable_plugin,tenable:sc:plugin,search,sourcetype\=tenable:sc:plugin
+plugin,vulnerability,Vulnerabilities,datamodel,\|*datamodel Vulnerabilities
+product,malware_infection,Malware_Attacks,datamodel,(\|*datamodel Malware_Attacks) OR (tag\=malware tag\=attack )
+protocol,intrusion_detection,IDS_Attacks,datamodel,(\|*datamodel IDS_Attacks) OR (tag\=ids tag\=attack )
+vulnerability_info,nessus_plugin,nessus:plugin,search,sourcetype\=nessus:plugin
+vulnerability_info,tenable_plugin,tenable:sc:plugin,search,sourcetype\=tenable:sc:plugin
+vulnerability_info,vulnerability,Vulnerabilities,datamodel,\|*datamodel Vulnerabilities

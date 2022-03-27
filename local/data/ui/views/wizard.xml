@@ -198,7 +198,7 @@
         <option name="rowNumbers">false</option>
         <fields>["_time","intent","splquery","Visualise Query","Refine Query"]</fields>
         <drilldown>
-          <condition field="timestamp"></condition>
+          <condition field="_time"></condition>
           <condition field="user"></condition>
           <condition field="intent"></condition>
           <condition field="splquery"></condition>
