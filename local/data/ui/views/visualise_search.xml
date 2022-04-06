@@ -14,6 +14,28 @@
       <a target="_self" href="nl?query=">Reset the form before starting building a new query (click here to reset)</a>
       <br/>
     </html>
+    <input type="dropdown" token="host" depends="$form.visualise_search$">
+      <label>Host</label>
+      <fieldForLabel>host</fieldForLabel>
+      <fieldForValue>host</fieldForValue>
+      <search base="base">
+        <query>| dedup host </query>
+      </search>
+      <choice value="*">All</choice>
+      <default>*</default>
+      <initialValue>*</initialValue>
+    </input>
+    <input type="dropdown" token="device.name" rejects="$form.visualise_search$">
+      <label>Host</label>
+      <fieldForLabel>device.name</fieldForLabel>
+      <fieldForValue>device.name</fieldForValue>
+      <search base="base">
+        <query>| dedup device.name</query>
+      </search>
+      <choice value="*">All</choice>
+      <default>*</default>
+      <initialValue>*</initialValue>
+    </input>
     <input type="dropdown" token="visualisation" depends="$form.splquery$,$form.visualise_search$" searchWhenChanged="true">
       <label>Visualisation</label>
       <change>
@@ -46,9 +68,9 @@
       <table>
         <title>$form.splquery$</title>
         <search base="base">
-          <query>| fields _time, count*, *.name,host*, source*, sourcetype*, * | fields - _raw, adjective, entity, adverb, event, by, stats_op, intent, m111</query>
+          <query>| search host="$host$" | fields _time, $form.entity$.*,  $form.event$.*, count*, *.name,host*, source*, sourcetype*, * | fields - *.tag, _raw, adjective, entity, adverb, event, by, stats_op, intent, m111</query>
         </search>
-        <option name="count">4</option>
+        <option name="count">3</option>
         <option name="drilldown">cell</option>
         <option name="refresh.display">progressbar</option>
       </table>
@@ -84,7 +106,7 @@
       <table>
         <title>$form.splquery$</title>
         <search base="base">
-          <query>| fields - _raw, adjective, entity, adverb, event, by, stats_op, intent, m111</query>
+          <query>| search device.name="$device.name$" | fields - _raw, adjective, entity, adverb, event, by, stats_op, intent, m111</query>
         </search>
         <option name="drilldown">cell</option>
         <option name="refresh.display">progressbar</option>

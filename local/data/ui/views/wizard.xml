@@ -132,6 +132,32 @@
     </html>
     </panel>
   </row>
+  <row depends="$adjective$,$entity$" rejects="$event$">
+    <panel>
+      <title>Select Intent, Query and Action</title>
+      <table>
+        <search>
+          <query>| `process_query("$adjective$ $entity$","-","","-","")`</query>
+        </search>
+        <option name="drilldown">row</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">false</option>
+        <fields>["intent","splquery","Visualise Query","Refine Query","status","caveats"]</fields>
+        <drilldown>
+          <condition field="intent"></condition>
+          <condition field="splquery"></condition>
+          <condition field="status"></condition>
+          <condition field="caveats"></condition>
+          <condition field="Visualise Query">
+            <link>visualise_search?form.$row.visualisePage$=on&amp;form.intent=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.adjective=$row.adjective$&amp;form.entity=$row.entity$&amp;form.adverb=&amp;form.event=&amp;form.stats_op=&amp;form.by=&amp;form.normalsplquery=$row.normalsplquery$</link>
+          </condition>
+          <condition field="Refine Query">
+            <link>nl_refine?form.query=$row.query$&amp;form.entity=$row.entity$&amp;form.event=&amp;form.adjective=$row.adjective$&amp;form.adverb=&amp;form.stats_op=&amp;form.by=</link>
+          </condition>
+        </drilldown>
+      </table>
+    </panel>
+  </row>
   <row depends="$adjective$,$entity$,$adverb$,$event$,$stats_op$,$by$">
     <panel>
       <title>Select Intent, Query and Action</title>
