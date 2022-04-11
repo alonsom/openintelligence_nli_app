@@ -14,18 +14,7 @@
       <a target="_self" href="nl?query=">Reset the form before starting building a new query (click here to reset)</a>
       <br/>
     </html>
-    <input type="dropdown" token="host" depends="$form.visualise_search$">
-      <label>Host</label>
-      <fieldForLabel>host</fieldForLabel>
-      <fieldForValue>host</fieldForValue>
-      <search base="base">
-        <query>| dedup host </query>
-      </search>
-      <choice value="*">All</choice>
-      <default>*</default>
-      <initialValue>*</initialValue>
-    </input>
-    <input type="dropdown" token="device.name" rejects="$form.visualise_search$">
+    <input type="dropdown" token="device.name" depends="$form.event$,$form.visualise_search$">
       <label>Host</label>
       <fieldForLabel>device.name</fieldForLabel>
       <fieldForValue>device.name</fieldForValue>
@@ -62,13 +51,13 @@
       </default>
     </input>
   </fieldset>
-  <row depends="$form.visualise_search$">
+  <row depends="$form.lookupyes$">
     <panel>
       <title>Results for: $form.intent$</title>
       <table>
         <title>$form.splquery$</title>
         <search base="base">
-          <query>| search host="$host$" | fields _time, $form.entity$.*,  $form.event$.*, count*, *.name,host*, source*, sourcetype*, * | fields - *.tag, _raw, adjective, entity, adverb, event, by, stats_op, intent, m111</query>
+          <query>| fields  * | fields - *.tag, _raw, adjective, entity, adverb, event, by, stats_op, intent, m111</query>
         </search>
         <option name="count">3</option>
         <option name="drilldown">cell</option>
@@ -76,12 +65,26 @@
       </table>
     </panel>
   </row>
-  <row>
+  <row depends="$form.visualise_search$" rejects="$form.lookupyes$">
+    <panel>
+      <title>Results for: $form.intent$</title>
+      <table>
+        <title>$form.splquery$</title>
+        <search base="base">
+          <query>| fields _time, $form.entity$.*,  $form.event$.*, count*, *.name,host*, source*, sourcetype*, * | fields - *.tag, _raw, adjective, entity, adverb, event, by, stats_op, intent, m111</query>
+        </search>
+        <option name="count">3</option>
+        <option name="drilldown">cell</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+  <row depends="$form.lookupyes$">
     <panel depends="$timechart_tk$,$form.entity$,$form.visualise_search$" rejects="$pivot_tk$">
       <title>Time Visualisation</title>
       <chart>
         <search base="base">
-          <query>| rename sourcetype AS eventRoot.name | timechart count by $form.entity$.name</query>
+          <query>| search device.name="$device.name$" | rename sourcetype AS eventRoot.name | timechart count by $form.entity$.name</query>
         </search>
         <option name="charting.axisTitleX.text">time</option>
         <option name="charting.axisTitleY.text">count_by_$form.entity$</option>
@@ -93,27 +96,27 @@
       <title>Count Visualisation</title>
       <chart>
         <search base="base">
-          <query>| eval eventRoot.name=sourcetype | rename sourcetype AS eventRoot.name | stats count by $form.entity$.name</query>
+          <query>| search device.name="$device.name$" | eval eventRoot.name=sourcetype | rename sourcetype AS eventRoot.name | stats count by $form.entity$.name</query>
         </search>
         <option name="charting.chart">line</option>
         <option name="refresh.display">progressbar</option>
       </chart>
     </panel>
   </row>
-  <row depends="$form.intent$,$form.splquery$,$form.entity$" rejects="$form.visualise_search$">
+  <row depends="$form.intent$,$form.splquery$,$form.lookupyes$" rejects="$form.visualise_search$">
     <panel>
       <title>Results for: $form.intent$</title>
       <table>
         <title>$form.splquery$</title>
         <search base="base">
-          <query>| search device.name="$device.name$" | fields - _raw, adjective, entity, adverb, event, by, stats_op, intent, m111</query>
+          <query>| fields - _raw, adjective, entity, adverb, event, by, stats_op, intent, m111</query>
         </search>
         <option name="drilldown">cell</option>
         <option name="refresh.display">progressbar</option>
       </table>
     </panel>
   </row>
-  <row depends="$form.intent$">
+  <row depends="$form.intent$,$form.lookupyes$">
     <panel>
       <table>
         <search>
