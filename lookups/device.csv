@@ -1,1 +1,2 @@
-name,ip,risk,type,scope,os,mac,dns
+"name","ip","risk","type","scope","os","mac","dns"
+"DESKTOP-2QIV6MM ","127.0.0.1","low","endpoint",,"windows",,
