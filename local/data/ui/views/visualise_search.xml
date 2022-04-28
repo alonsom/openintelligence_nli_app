@@ -79,7 +79,7 @@
       </table>
     </panel>
   </row>
-  <row depends="$form.lookupyes$">
+  <row rejects="$form.lookupyes$">
     <panel depends="$timechart_tk$,$form.entity$,$form.visualise_search$" rejects="$pivot_tk$">
       <title>Time Visualisation</title>
       <chart>
@@ -103,7 +103,7 @@
       </chart>
     </panel>
   </row>
-  <row depends="$form.intent$,$form.splquery$,$form.lookupyes$" rejects="$form.visualise_search$">
+  <row depends="$form.intent$,$form.splquery$" rejects="$form.lookupyes$,$form.visualise_search$">
     <panel>
       <title>Results for: $form.intent$</title>
       <table>
@@ -116,7 +116,7 @@
       </table>
     </panel>
   </row>
-  <row depends="$form.intent$,$form.lookupyes$">
+  <row depends="$form.intent$" rejects="$form.lookupyes$">
     <panel>
       <table>
         <search>
@@ -127,17 +127,17 @@
         <option name="drilldown">row</option>
         <option name="refresh.display">progressbar</option>
         <option name="rowNumbers">false</option>
-        <fields>["Modify Query","Save Search","Exist Alert", "Matching Saved Search"]</fields>
+        <fields>["Modify Query","Exist Alert"]</fields>
         <drilldown>
           <condition field="Modify Query">
             <link>nl?form.intent=$form.intent$&amp;form.manual_tk=on</link>
           </condition>
-          <condition field="Save Search">
+          <!--condition field="Save Search">
             <link>savedsearch?$row.result$=yes&amp;action=yes&amp;form.intent=$form.intent$&amp;form.splquery=$form.splquery$&amp;form.adjective=$form.adjective$&amp;form.entity=$form.entity$&amp;form.event=$form.event$&amp;form.adverb=$form.adverb$&amp;form.stats_op=$form.stats_op$&amp;form.by=$form.by$&amp;form.normalsplquery=$form.normalsplquery$&amp;form.normalintent=$row.normalintent$</link>
           </condition>
           <condition field="Matching Saved Search">
             <link>savedsearch?form.adjective=$form.adjective$&amp;form.entity=$form.entity$&amp;form.event=$form.event$&amp;form.adverb=$form.adverb$&amp;form.stats_op=$form.stats_op$&amp;form.by=$form.by$&amp;form.normalsplquery=$form.normalsplquery</link>
-          </condition>
+          </condition -->
           <condition field="Exist Alert"></condition>
         </drilldown>
       </table>
