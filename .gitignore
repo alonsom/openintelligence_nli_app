@@ -5,7 +5,7 @@ __pycache__/
 # App specific
 app.manifest.old
 local.meta
-local/macros.conf
+local/*
 
 # Editor backs
 *.bak
