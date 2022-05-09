@@ -132,6 +132,32 @@
     </html>
     </panel>
   </row>
+  <row depends="$adjective$,$entity$" rejects="$event$">
+    <panel>
+      <title>Select Intent, Query and Action</title>
+      <table>
+        <search>
+          <query>| `process_query("$adjective$ $entity$","-","","-","")`</query>
+        </search>
+        <option name="drilldown">row</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">false</option>
+        <fields>["intent","splquery","Visualise Query","Refine Query","status","caveats"]</fields>
+        <drilldown>
+          <condition field="intent"></condition>
+          <condition field="splquery"></condition>
+          <condition field="status"></condition>
+          <condition field="caveats"></condition>
+          <condition field="Visualise Query">
+            <link>visualise_search?form.$row.visualisePage$=on&amp;form.intent=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.adjective=$row.adjective$&amp;form.entity=$row.entity$&amp;form.adverb=&amp;form.event=&amp;form.stats_op=&amp;form.by=&amp;form.normalsplquery=$row.normalsplquery$&amp;lookup$lookup$=yes</link>
+          </condition>
+          <condition field="Refine Query">
+            <link>nl_refine?form.query=$row.query$&amp;form.entity=$row.entity$&amp;form.event=&amp;form.adjective=$row.adjective$&amp;form.adverb=&amp;form.stats_op=&amp;form.by=</link>
+          </condition>
+        </drilldown>
+      </table>
+    </panel>
+  </row>
   <row depends="$adjective$,$entity$,$adverb$,$event$,$stats_op$,$by$">
     <panel>
       <title>Select Intent, Query and Action</title>
@@ -149,7 +175,7 @@
           <condition field="status"></condition>
           <condition field="caveats"></condition>
           <condition field="Visualise Query">
-            <link>visualise_search?form.$row.visualisePage$=on&amp;form.intent=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.adjective=$row.adjective$&amp;form.entity=$row.entity$&amp;form.adverb=$row.adverb$&amp;form.event=$row.event$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.by$&amp;form.normalsplquery=$row.normalsplquery$</link>
+            <link>visualise_search?form.$row.visualisePage$=on&amp;form.intent=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.adjective=$row.adjective$&amp;form.entity=$row.entity$&amp;form.adverb=$row.adverb$&amp;form.event=$row.event$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.by$&amp;form.normalsplquery=$row.normalsplquery$&amp;lookup$lookup$=yes</link>
           </condition>
           <condition field="Refine Query">
             <link>nl_refine?form.query=$row.query$&amp;form.entity=$row.entity$&amp;form.event=$row.event$&amp;form.adjective=$row.adjective$&amp;form.adverb=$row.adverb$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.by$</link>
@@ -175,10 +201,38 @@
           <condition field="status"></condition>
           <condition field="caveats"></condition>
           <condition field="Visualise Query">
-            <link>visualise_search?form.$row.visualisePage$=on&amp;form.intent=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.adjective=$row.adjective$&amp;form.entity=$row.entity$&amp;form.adverb=$row.adverb$&amp;form.event=$row.event$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.by$&amp;form.normalsplquery=$row.normalsplquery$</link>
+            <link>visualise_search?form.$row.visualisePage$=on&amp;form.intent=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.adjective=$row.adjective$&amp;form.entity=$row.entity$&amp;form.adverb=$row.adverb$&amp;form.event=$row.event$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.by$&amp;form.normalsplquery=$row.normalsplquery$&amp;lookup$lookup$=yes</link>
           </condition>
           <condition field="Refine Query">
             <link>nl_refine?form.query=$row.query$&amp;form.splquery=$row.splquery$&amp;form.entity=$row.entity$&amp;form.event=$row.event$&amp;form.adjective=$row.adjective$&amp;form.adverb=$row.adverb$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.entity$</link>
+          </condition>
+        </drilldown>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>History Visualised Queries</title>
+      <table>
+        <search>
+          <query>`process_old_search`| dedup intent | eval "Visualise Query"="CLICK HERE","Refine Query"="CLICK HERE"  | sort -  _time</query>
+          <earliest>$earliest$</earliest>
+          <latest>$latest$</latest>
+        </search>
+        <option name="drilldown">row</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">false</option>
+        <fields>["_time","intent","splquery","Visualise Query","Refine Query"]</fields>
+        <drilldown>
+          <condition field="_time"></condition>
+          <condition field="user"></condition>
+          <condition field="intent"></condition>
+          <condition field="splquery"></condition>
+          <condition field="Visualise Query">
+            <link>visualise_search?form.$row.visualisePage$=on&amp;form.intent=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.adjective=$row.adjective$&amp;form.entity=$row.entity$&amp;form.adverb=$row.adverb$&amp;form.event=$row.event$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.by$&amp;form.normalsplquery=$row.normalsplquery$&amp;lookup$lookup$=yes</link>
+          </condition>
+          <condition field="Refine Query">
+            <link>nl?form.intent=$row.intent$&amp;manual_tk=on</link>
           </condition>
         </drilldown>
       </table>

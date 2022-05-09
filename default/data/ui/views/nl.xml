@@ -1,10 +1,6 @@
 <form hideEdit="true" theme="dark">
   <label>Natural Language Search</label>
   <fieldset submitButton="false" autoRun="true">
-    <html>
-      <a target="_self" href="nl">Reset the form before starting building a new query (click here to reset)</a>
-      <br/>
-    </html>
     <input id="text" type="text" token="intent" searchWhenChanged="true">
       <label>Your Natural Language Query</label>
       <change>
@@ -19,7 +15,41 @@
         </condition>
       </change>
     </input>
+    <html>
+      <br/>
+    </html>
+    <input type="checkbox" token="help" searchWhenChanged="true" rejects="$form.splquery$">
+      <label>Options</label>
+      <choice value="on">Guided Mode</choice>
+      <change>
+        <condition value="on">
+          <set token="help_tk">on</set>
+        </condition>
+        <condition>
+          <unset token="help_tk"></unset>
+        </condition>
+      </change>
+    </input>
   </fieldset>
+  <row depends="$help_tk$">
+    <panel>
+      <html>
+        <p>
+          <strong>SOME EXAMPLES OF QUERY PATTERNS</strong>
+          <br/>
+          <strong>BaseEntityQuery (e.g. privileged account)</strong>&#09;&#09;---&#09;&#09;AdjectiveLogicalExpression EntityName.AttributeName?
+          <br/>
+          <strong>BasePredicateQuery (e.g. server device.name with successful OR privileged windows event)</strong>&#09;&#09;---&#09;&#09;BaseEntityQuery* AdverbialLogicalExpression EventName event
+          <br/>
+          <strong>CorrelationQuery (e.g. privileged device with succesful authentication before account created windows event)</strong>&#09;&#09;---&#09;&#09;BasePredicateQuery LogicalOperator BasePredicateQuery<br/>
+          <strong>StatisticalQuery (e.g. values account, privileged device with succesful authentication by device)</strong>&#09;&#09;---&#09;&#09;StatsOp BasePredicateQuery by EntityName* 
+          <br/>
+          <strong>CorrelationStatisticalQuery (e.g. values account, privileged device with succesful authentication by device)</strong>&#09;&#09;---&#09;&#09;StatsOp CorrelationQuery by EntityName*
+          <br/>
+        </p>
+    </html>
+    </panel>
+  </row>
   <row depends="$intent$,$manual_tk$">
     <panel>
       <title>Select Intent, Query and Action</title>
@@ -37,8 +67,8 @@
           <condition field="status"></condition>
           <condition field="caveats"></condition>
           <condition field="Visualise Query">
-            <link>visualise_search?form.$row.visualisePage$=on&amp;form.intent=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.adjective=$row.adjective$&amp;form.entity=$row.entity$&amp;form.adverb=$row.adverb$&amp;form.event=$row.event$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.by$&amp;form.normalsplquery=$row.normalsplquery$</link>
-          </condition>
+            <link>visualise_search?form.$row.visualisePage$=on&amp;form.intent=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.adjective=$row.adjective$&amp;form.entity=$row.entity$&amp;form.adverb=$row.adverb$&amp;form.event=$row.event$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.by$&amp;form.normalsplquery=$row.normalsplquery$&amp;lookup$lookup$=yes</link>
+          </condition>&amp;
           <condition field="Refine Query">
             <link>nl_refine?form.query=$row.query$&amp;form.entity=$row.entity$&amp;form.event=$row.event$&amp;form.adjective=$row.adjective$&amp;form.adverb=$row.adverb$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.by$</link>
           </condition>
@@ -46,10 +76,9 @@
       </table>
     </panel>
   </row>
-  <!--row rejects="$manual_tk$" -->
   <row>
     <panel>
-      <title>Latest Visualised Queries</title>
+      <title>History Visualised Queries</title>
       <table>
         <search>
           <query>`process_old_search`| dedup intent | eval "Visualise Query"="CLICK HERE","Refine Query"="CLICK HERE"  | sort -  _time</query>
@@ -61,12 +90,12 @@
         <option name="rowNumbers">false</option>
         <fields>["_time","intent","splquery","Visualise Query","Refine Query"]</fields>
         <drilldown>
-          <condition field="timestamp"></condition>
+          <condition field="_time"></condition>
           <condition field="user"></condition>
           <condition field="intent"></condition>
           <condition field="splquery"></condition>
           <condition field="Visualise Query">
-            <link>visualise_search?form.$row.visualisePage$=on&amp;form.intent=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.adjective=$row.adjective$&amp;form.entity=$row.entity$&amp;form.adverb=$row.adverb$&amp;form.event=$row.event$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.by$&amp;form.normalsplquery=$row.normalsplquery$</link>
+            <link>visualise_search?form.$row.visualisePage$=on&amp;form.intent=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.adjective=$row.adjective$&amp;form.entity=$row.entity$&amp;form.adverb=$row.adverb$&amp;form.event=$row.event$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.by$&amp;form.normalsplquery=$row.normalsplquery$&amp;lookup$form.lookup$=yes</link>
           </condition>
           <condition field="Refine Query">
             <link>nl?form.intent=$row.intent$&amp;manual_tk=on</link>
