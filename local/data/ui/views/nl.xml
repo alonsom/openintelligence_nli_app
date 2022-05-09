@@ -1,10 +1,6 @@
 <form hideEdit="true" theme="dark">
   <label>Natural Language Search</label>
   <fieldset submitButton="false" autoRun="true">
-    <html>
-      <a target="_self" href="nl">Reset the form before starting building a new query (click here to reset)</a>
-      <br/>
-    </html>
     <input id="text" type="text" token="intent" searchWhenChanged="true">
       <label>Your Natural Language Query</label>
       <change>

@@ -10,10 +10,6 @@
     <latest>$time.latest$</latest>
   </search>
   <fieldset submitButton="false" autoRun="true">
-    <html>
-      <a target="_self" href="nl?query=">Reset the form before starting building a new query (click here to reset)</a>
-      <br/>
-    </html>
     <input type="dropdown" token="device.name" depends="$form.event$,$form.visualise_search$">
       <label>Host</label>
       <fieldForLabel>device.name</fieldForLabel>
