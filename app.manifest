@@ -1,0 +1,56 @@
+{
+	"schemaVersion": "1.0.0",
+	"info": {
+		"title": "openintelligence_nli_app",
+		"id": {
+			"group": null,
+			"name": "openintelligence_nli_app",
+			"version": "1.0.2"
+		},
+		"author": [{
+			"name": "alonsomarquez",
+			"email": "alonso.marquez@openintelligence.com.au",
+			"company": "Ideasol Australia Pty Ltd"
+		}],
+		"releaseDate": "20/08/2021",
+		"description": "This App provides a natural language interface for Splunk. It includes two different wizards for the incremental building of a natural language query that could be translated to a Splunk query.",
+		"classification": {
+			"intendedAudience": "Junior or senior users wanting to write accurate Spl correlation queries in an easy fashion.",
+			"categories": ["Security, Fraud & Compliance", "utilities", "IT Operations", "Business Analytics"],
+			"developmentStatus": "Production/Stable"
+		},
+		"commonInformationModels": "4.*",
+		"license": {
+			"name": "GNU GENERAL PUBLIC LICENSE",
+			"text": "./LICENSE.txt",
+			"uri": "https://www.gnu.org/licenses/gpl-3.0.html"
+		},
+		"privacyPolicy": {
+			"name": null,
+			"text": null,
+			"uri": null
+		},
+		"releaseNotes": {
+			"name": null,
+			"text": "./RELEASE_NOTES.txt",
+			"uri": null
+		}
+	},
+	"dependencies": {
+		"TA-webtools": {
+			"version": ">=2.0.2"
+		},
+		"Splunk_SA_CIM": {
+			"version": ">=4.0.0",
+			"optional": true
+		}
+	},
+	"tasks": [],
+	"inputGroups": {},
+	"incompatibleApps": {},
+	"platformRequirements": {
+		"splunk": {
+			"Enterprise": "*"
+		}
+	}
+}
