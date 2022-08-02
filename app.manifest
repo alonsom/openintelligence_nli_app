@@ -5,14 +5,14 @@
 		"id": {
 			"group": null,
 			"name": "openintelligence_nli_app",
-			"version": "1.0.2"
+			"version": "2.0.0"
 		},
 		"author": [{
 			"name": "alonsomarquez",
 			"email": "alonso.marquez@openintelligence.com.au",
 			"company": "Ideasol Australia Pty Ltd"
 		}],
-		"releaseDate": "20/08/2021",
+		"releaseDate": "02/08/2022",
 		"description": "This App provides a natural language interface for Splunk. It includes two different wizards for the incremental building of a natural language query that could be translated to a Splunk query.",
 		"classification": {
 			"intendedAudience": "Junior or senior users wanting to write accurate Spl correlation queries in an easy fashion.",

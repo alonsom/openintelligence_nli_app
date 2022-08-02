@@ -5,7 +5,7 @@ Copyright (C) 2022 Ideasol Australia Pty Ltd (trading as OpenIntelligence). All 
 ## Introduction
 Welcome to the OpenIntelligence Natural Language Interface for Splunk.
 Our natural language interface allows both novices and experienced Splunk users to search for information or define complex correlation rules in their language. 
-This version brings the new natural language search bar.  This sophisticated AI interface understands your users' language and translates their natural language statements to Splunk queries and visualisations.  It also included an improved version of our standard natural language wizard with an incremental, guided approach for building natural language statements and associated Splunk queries. It also brings a history of queries and the ability to save queries for reusing and sharing purposes.
+This version brings the new natural language search bar.  This sophisticated AI interface understands your users' language and translates their natural language statements to Splunk queries and visualisations.  It also included an improved version of our standard natural language wizard with an incremental, guided approach for building natural language statements and associated Splunk queries. It also brings a history of queries.
 Our custom version (please see Versions and Licenses below) extend these capabilities with tailored queries using organisation specific data-models, events, and lookups.  It also includes customisation options like the ability to define new entities, adjectives, verbs, and adverbs.
 For additional documentation or access to the latest version of this app, please visit [openintelligence-nli-app](https://openintelligence.com.au/openintelligence-nli-app) or our public GitHub project [openintelligence_nli_app](https://github.com/alonsom/openintelligence_nli_app).
 
@@ -29,9 +29,8 @@ Please Install the App and above dependencies and then select the *Settings* tab
 
 ## Main Menu
 - The Natural Language Search tab provides very sophisticated Search and Visualisation capabilities using plain Natural Language statements.
-- The Event Wizard tab provides Search and Visualisation capabilities using a semantically driven, guided approach.
-- The Saved Searches tab returns a list of the saved searches for reuse and sharing purposes.
-- The Settings tab provide a variety of customised options
+- The Natural Language Wizard tab provides Search and Visualisation capabilities using a semantically driven, guided approach.
+- The Settings tab provides a variety of customisation options
 - The Entities Mapping tab displays identified entities and their mapping to local lookups/queries.
 
 ## Troubleshooting
