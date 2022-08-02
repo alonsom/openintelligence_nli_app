@@ -1,7 +1,7 @@
-<form hideEdit="true" theme="dark">
+<form hideEdit="true" version="1.1" theme="dark">
   <label>Visualise Search</label>
   <init>
-    <set token="timechart_tk">timechart</set>
+    <set token="timechart_tk"> timechart</set>
   </init>
   <!-- Base query include unique identification string and populations of all input fields required for the history links (visualise & refine) -->
   <search id="base">

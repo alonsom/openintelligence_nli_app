@@ -1,8 +1,8 @@
-<form hideEdit="true" theme="dark">
+<form hideEdit="true" version="1.1" theme="dark">
   <label>Natural Language Search</label>
   <fieldset submitButton="false" autoRun="true">
     <input id="text" type="text" token="intent" searchWhenChanged="true">
-      <label>Your Natural Language Query</label>
+      <!--label>Your Natural Language Query</label-->
       <change>
         <condition value="">
           <unset token="manual_tk"></unset>
@@ -18,9 +18,22 @@
     <html>
       <br/>
     </html>
+    <input type="checkbox" token="example" searchWhenChanged="true" rejects="$form.splquery$">
+      <label></label>
+      <choice value="on">Query Examples</choice>
+      <change>
+        <condition value="on">
+          <set token="example_tk">on</set>
+        </condition>
+        <condition>
+          <unset token="example_tk"></unset>
+        </condition>
+      </change>
+      <delimiter> </delimiter>
+    </input>
     <input type="checkbox" token="help" searchWhenChanged="true" rejects="$form.splquery$">
-      <label>Options</label>
-      <choice value="on">Guided Mode</choice>
+      <label></label>
+      <choice value="on">Query Patterns</choice>
       <change>
         <condition value="on">
           <set token="help_tk">on</set>
@@ -29,22 +42,59 @@
           <unset token="help_tk"></unset>
         </condition>
       </change>
+      <delimiter> </delimiter>
+    </input>
+    <input type="checkbox" token="history" searchWhenChanged="true" rejects="$form.splquery$">
+      <label></label>
+      <choice value="on">History Visualized Queries</choice>
+      <change>
+        <condition value="on">
+          <set token="history_tk">on</set>
+        </condition>
+        <condition>
+          <unset token="history_tk"></unset>
+        </condition>
+      </change>
+      <delimiter> </delimiter>
     </input>
   </fieldset>
+  <row depends="$example_tk$">
+    <panel>
+      <html>
+        <p>
+          <strong>SOME QUERY EXAMPLES</strong>
+          <br/>
+          <strong>device</strong>
+          <br/>
+          <strong>privileged account</strong>
+          <br/>
+          <strong>server device.name with successful windows event</strong>
+          <br/>
+          <strong>privileged device with succesful authentication before account created windows event</strong>
+          <br/>
+          <strong>give me the values for an account and privileged device with succesful authentication by device</strong>
+          <br/>
+          <strong>give me the values for an account  and device with a failed authentication event before this device had a privileged authentication event</strong>
+          <br/>
+        </p>
+    </html>
+    </panel>
+  </row>
   <row depends="$help_tk$">
     <panel>
       <html>
         <p>
-          <strong>SOME EXAMPLES OF QUERY PATTERNS</strong>
+          <strong>SOME QUERY PATTERNS</strong>
           <br/>
-          <strong>BaseEntityQuery (e.g. privileged account)</strong>&#09;&#09;---&#09;&#09;AdjectiveLogicalExpression EntityName.AttributeName?
+          <strong>BaseEntityQuery (e.g. privileged account)</strong>		---		AdjectiveLogicalExpression EntityName.AttributeName?
           <br/>
-          <strong>BasePredicateQuery (e.g. server device.name with successful OR privileged windows event)</strong>&#09;&#09;---&#09;&#09;BaseEntityQuery* AdverbialLogicalExpression EventName event
+          <strong>BasePredicateQuery (e.g. server device.name with successful OR privileged windows event)</strong>		---		BaseEntityQuery* AdverbialLogicalExpression EventName event
           <br/>
-          <strong>CorrelationQuery (e.g. privileged device with succesful authentication before account created windows event)</strong>&#09;&#09;---&#09;&#09;BasePredicateQuery LogicalOperator BasePredicateQuery<br/>
-          <strong>StatisticalQuery (e.g. values account, privileged device with succesful authentication by device)</strong>&#09;&#09;---&#09;&#09;StatsOp BasePredicateQuery by EntityName* 
+          <strong>CorrelationQuery</strong>		---		BasePredicateQuery LogicalOperator BasePredicateQuery
           <br/>
-          <strong>CorrelationStatisticalQuery (e.g. values account, privileged device with succesful authentication by device)</strong>&#09;&#09;---&#09;&#09;StatsOp CorrelationQuery by EntityName*
+          <strong>StatisticalQuery</strong>		---		StatsOp BasePredicateQuery by EntityName* 
+          <br/>
+          <strong>CorrelationStatisticalQuery</strong>		---		StatsOp CorrelationQuery by EntityName*
           <br/>
         </p>
     </html>
@@ -68,15 +118,14 @@
           <condition field="caveats"></condition>
           <condition field="Visualise Query">
             <link>visualise_search?form.$row.visualisePage$=on&amp;form.intent=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.adjective=$row.adjective$&amp;form.entity=$row.entity$&amp;form.adverb=$row.adverb$&amp;form.event=$row.event$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.by$&amp;form.normalsplquery=$row.normalsplquery$&amp;lookup$lookup$=yes</link>
-          </condition>&amp;
-          <condition field="Refine Query">
+          </condition>&amp;<condition field="Refine Query">
             <link>nl_refine?form.query=$row.query$&amp;form.entity=$row.entity$&amp;form.event=$row.event$&amp;form.adjective=$row.adjective$&amp;form.adverb=$row.adverb$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.by$</link>
           </condition>
         </drilldown>
       </table>
     </panel>
   </row>
-  <row>
+  <row depends="$history_tk$">
     <panel>
       <title>History Visualised Queries</title>
       <table>
@@ -88,7 +137,7 @@
         <option name="drilldown">row</option>
         <option name="refresh.display">progressbar</option>
         <option name="rowNumbers">false</option>
-        <fields>["_time","intent","splquery","Visualise Query","Refine Query"]</fields>
+        <fields>["_time","intent","splquery","Visualise Query"]</fields>
         <drilldown>
           <condition field="_time"></condition>
           <condition field="user"></condition>
@@ -96,9 +145,6 @@
           <condition field="splquery"></condition>
           <condition field="Visualise Query">
             <link>visualise_search?form.$row.visualisePage$=on&amp;form.intent=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.adjective=$row.adjective$&amp;form.entity=$row.entity$&amp;form.adverb=$row.adverb$&amp;form.event=$row.event$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.by$&amp;form.normalsplquery=$row.normalsplquery$&amp;lookup$form.lookup$=yes</link>
-          </condition>
-          <condition field="Refine Query">
-            <link>nl?form.intent=$row.intent$&amp;manual_tk=on</link>
           </condition>
         </drilldown>
       </table>

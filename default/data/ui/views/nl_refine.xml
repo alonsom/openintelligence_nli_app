@@ -1,4 +1,4 @@
-<form hideEdit="true" theme="dark">
+<form hideEdit="true" version="1.1" theme="dark">
   <init></init>
   <label>Natural Language Advanced Wizard</label>
   <fieldset submitButton="false" autoRun="true">
@@ -199,6 +199,7 @@
           <condition field="intent"></condition>
           <condition field="splquery"></condition>
           <condition field="status"></condition>
+          <condition field="caveats"></condition>
           <condition field="Visualise Query">
             <link>visualise_search?form.$row.visualisePage$=on&amp;form.intent=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.adjective=$row.adjective$&amp;form.entity=$row.entity$&amp;form.adverb=$row.adverb$&amp;form.event=$row.event$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.by$&amp;form.normalsplquery=$row.normalsplquery$</link>
           </condition>

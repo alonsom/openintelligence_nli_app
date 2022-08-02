@@ -1,4 +1,4 @@
-<dashboard hideEdit="true" theme="dark">
+<dashboard hideEdit="true" version="1.1" theme="dark">
   <label>Entities Mapping</label>
   <fieldset submitButton="false">
     <input type="dropdown" token="entity" searchWhenChanged="true">

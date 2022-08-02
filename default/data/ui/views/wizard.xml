@@ -1,4 +1,4 @@
-<form hideEdit="true" theme="dark">
+<form hideEdit="true" version="1.1" theme="dark">
   <init>
     <set token="by">eventRoot</set>
     <set token="stats_op">-</set>
@@ -79,7 +79,7 @@
       <br/>
     </html>
     <input type="checkbox" token="help" searchWhenChanged="true" rejects="$form.splquery$">
-      <label>Options</label>
+      <label></label>
       <choice value="on">Guided Mode</choice>
       <change>
         <condition value="on">
@@ -89,6 +89,19 @@
           <unset token="help_tk"></unset>
         </condition>
       </change>
+    </input>
+    <input type="checkbox" token="history" searchWhenChanged="true" rejects="$form.splquery$">
+      <label></label>
+      <choice value="on">History Visualized Queries</choice>
+      <change>
+        <condition value="on">
+          <set token="history_tk">on</set>
+        </condition>
+        <condition>
+          <unset token="history_tk"></unset>
+        </condition>
+      </change>
+      <delimiter> </delimiter>
     </input>
   </fieldset>
   <row depends="$help_tk$" rejects="$entity$,$event$">
@@ -210,7 +223,7 @@
       </table>
     </panel>
   </row>
-  <row>
+  <row depends="$history_tk$">
     <panel>
       <title>History Visualised Queries</title>
       <table>
@@ -222,7 +235,7 @@
         <option name="drilldown">row</option>
         <option name="refresh.display">progressbar</option>
         <option name="rowNumbers">false</option>
-        <fields>["_time","intent","splquery","Visualise Query","Refine Query"]</fields>
+        <fields>["_time","intent","splquery","Visualise Query"]</fields>
         <drilldown>
           <condition field="_time"></condition>
           <condition field="user"></condition>
@@ -230,9 +243,6 @@
           <condition field="splquery"></condition>
           <condition field="Visualise Query">
             <link>visualise_search?form.$row.visualisePage$=on&amp;form.intent=$row.intent$&amp;form.splquery=$row.splquery$&amp;form.adjective=$row.adjective$&amp;form.entity=$row.entity$&amp;form.adverb=$row.adverb$&amp;form.event=$row.event$&amp;form.stats_op=$row.stats_op$&amp;form.by=$row.by$&amp;form.normalsplquery=$row.normalsplquery$&amp;lookup$lookup$=yes</link>
-          </condition>
-          <condition field="Refine Query">
-            <link>nl?form.intent=$row.intent$&amp;manual_tk=on</link>
           </condition>
         </drilldown>
       </table>

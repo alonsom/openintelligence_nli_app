@@ -1,4 +1,4 @@
-<dashboard hideEdit="true" theme="dark">
+<dashboard hideEdit="true" version="1.1" theme="dark">
   <init>
     <unset token="and_nl"></unset>
     <set token="repeatEntity_tk">alone</set>
