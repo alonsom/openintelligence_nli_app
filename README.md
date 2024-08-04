@@ -11,6 +11,7 @@ For additional documentation or access to the latest version of this app, please
 
 ## Dependencies
 This app has the following dependencies:
+- Splunk 8.x  (e.g. 8.2.1). Version 9.x has introduced some changes to the Python libraries that are impacting the App used for the rest calls. It will be fixed in the next few days,
 - Licensed access to the Rest API of an OpenIntelligence Natural Language Rules Engine instance. This REST API provides access to our sophisticated Rules Engine and its capability to translate natural language statements to Splunk queries. 
 - The Webtools Add-on. This Add-on includes a *curl* command and is used to access the Rest API above. This Add-on may be downloaded at [Webtools Add-on](https://splunkbase.splunk.com/app/4146).
 
